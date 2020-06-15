@@ -6,6 +6,8 @@
 
 ### Add a default.json file in config folder with the following
 
+Leave the githubToken as it is for now, but add the mongoURI of your database.
+
 ```
 {
   "mongoURI": "<your_mongoDB_Atlas_uri_with_credentials>",
@@ -17,13 +19,6 @@
 ### Install server dependencies
 
 ```bash
-npm install
-```
-
-### Install client dependencies
-
-```bash
-cd client
 npm install
 ```
 
