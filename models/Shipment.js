@@ -75,6 +75,45 @@ const ShipmentSchema = new Schema({
     country: {
       type: String
     }
+  },
+  edgeDevices: {
+    temperature: {
+      optValue: {
+        type: Number
+      },
+      errorMargin: {
+        type: Number
+      }
+    },
+    pressure: {
+      optValue: {
+        type: Number
+      },
+      errorMargin: {
+        type: Number
+      }
+    },
+    vibration: {
+      optValue: {
+        type: Number
+      },
+      errorMargin: {
+        type: Number
+      }
+    },
+    legs: [
+      {
+        address: {
+          type: String
+        },
+        arrivalDate: {
+          type: Date
+        },
+        departureDate: {
+          type: Date
+        }
+      }
+    ]
   }
 });
 
