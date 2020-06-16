@@ -86,4 +86,23 @@ router.delete('/delete/:id', [auth, checkObjectId('id')], async (req, res) => {
   }
 });
 
+// @route   GET api/shipment/view/:id
+// @desc    Show Shipment by its id
+// @access  Private
+router.get('/view/:id', [auth, checkObjectId('id')], async (req, res) => {
+  try {
+    const shipment = await Shipment.findById(req.params.id);
+    if (!shipment) {
+      return res.status(404).json({ msg: 'Shipment not found' });
+    }
+    res.json(shipment);
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: 'Shipment not found' });
+    }
+    res.status(500).send('Server Error');
+  }
+});
+
 module.exports = router;
