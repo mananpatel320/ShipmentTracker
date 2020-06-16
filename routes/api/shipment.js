@@ -8,24 +8,24 @@ const checkObjectId = require('../../middleware/checkObjectId');
 const Shipment = require('../../models/Shipment');
 const User = require('../../models/User');
 
-// @route    GET api/shipment/all
+// @route    GET api/shipment/
 // @desc     Get all shipments
 // @access   Private
-router.get('/all', auth, async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     const shipments = await Shipment.find().sort({ date: -1 });
     res.json(shipments);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send('Server Error');
+    res.status(500).send('500 : Server Error');
   }
 });
 
-// @route   POST api/shipment/new
+// @route   POST api/shipment/
 // @desc    Create a new shipment
 // @access  Private
 router.post(
-  '/new',
+  '/',
   [auth, [check('name', 'Name is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
@@ -55,25 +55,25 @@ router.post(
       res.json(shipment);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('Server Error');
+      res.status(500).send('500 : Server Error');
     }
   }
 );
 
-// @route   DELETE api/shipment/delete/:id
+// @route   DELETE api/shipment/:id
 // @desc    Delete a shipment
 // @access  Private
-router.delete('/delete/:id', [auth, checkObjectId('id')], async (req, res) => {
+router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const shipment = await Shipment.findById(req.params.id);
 
     if (!shipment) {
-      return res.status(404).json({ msg: 'Shipment not found' });
+      return res.status(404).json({ msg: '404 : Shipment not found' });
     }
 
     //Check user
     if (shipment.user.toString() !== req.user.id) {
-      return res.status(401).json({ msg: 'User not authorized' });
+      return res.status(401).json({ msg: '401 : User not authorized' });
     }
 
     await shipment.remove();
@@ -82,26 +82,26 @@ router.delete('/delete/:id', [auth, checkObjectId('id')], async (req, res) => {
   } catch (err) {
     console.error(err.message);
 
-    res.status(500).send('Server Error');
+    res.status(500).send('500 : Server Error');
   }
 });
 
-// @route   GET api/shipment/view/:id
+// @route   GET api/shipment/:id
 // @desc    Show Shipment by its id
 // @access  Private
-router.get('/view/:id', [auth, checkObjectId('id')], async (req, res) => {
+router.get('/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     const shipment = await Shipment.findById(req.params.id);
     if (!shipment) {
-      return res.status(404).json({ msg: 'Shipment not found' });
+      return res.status(404).json({ msg: '404 : Shipment not found' });
     }
     res.json(shipment);
   } catch (err) {
     console.error(err.message);
     if (err.kind == 'ObjectId') {
-      return res.status(404).json({ msg: 'Shipment not found' });
+      return res.status(404).json({ msg: '404 : Shipment not found' });
     }
-    res.status(500).send('Server Error');
+    res.status(500).send('500 : Server Error');
   }
 });
 

@@ -117,4 +117,4 @@ const ShipmentSchema = new Schema({
   ]
 });
 
-module.exports = mongoose.model('post', ShipmentSchema);
+module.exports = mongoose.model('shipments', ShipmentSchema);
