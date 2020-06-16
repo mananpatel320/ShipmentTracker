@@ -16,19 +16,19 @@ Leave the githubToken as it is for now, but add the mongoURI of your database.
 }
 ```
 
-### Install server dependencies
+### Install server dependencies 
+
+In the root of the project run the following command
 
 ```bash
 npm install
-```
-
-### Running the backend server
-
-```bash
-npm run server
+cd client
+npm install
 ```
 
 ### Running the backend and frontend
+
+In the root of the project run the following command
 
 ```bash
 npm run dev
