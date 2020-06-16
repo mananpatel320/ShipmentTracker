@@ -100,21 +100,21 @@ const ShipmentSchema = new Schema({
       errorMargin: {
         type: Number
       }
-    },
-    legs: [
-      {
-        address: {
-          type: String
-        },
-        arrivalDate: {
-          type: Date
-        },
-        departureDate: {
-          type: Date
-        }
+    }
+  },
+  legs: [
+    {
+      address: {
+        type: String
+      },
+      arrivalDate: {
+        type: Date
+      },
+      departureDate: {
+        type: Date
       }
-    ]
-  }
+    }
+  ]
 });
 
 module.exports = mongoose.model('post', ShipmentSchema);
