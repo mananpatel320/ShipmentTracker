@@ -1,8 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import { Button, Grid, AppBar, Toolbar, Typography } from '@material-ui/core';
+import { logout } from '../../actions/auth';
 import Drawer from '@material-ui/core/Drawer';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
@@ -93,7 +96,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function App() {
+const Dashboard = ({ auth: { isAuthenticated, loading }, logout }, props) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -227,24 +230,24 @@ export default function App() {
         </List>
         <Divider />
         <List>
-          {['John Doe', 'Notifications', 'Send email', 'Logout'].map(
-            (text, index) => (
-              <ListItem button key={text}>
-                <ListItemIcon>
-                  {index === 0 ? (
-                    <AccountCircleIcon />
-                  ) : index === 1 ? (
-                    <MailIcon />
-                  ) : index === 2 ? (
-                    <MailIcon />
-                  ) : (
-                    <ExitToAppIcon />
-                  )}{' '}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItem>
-            )
-          )}
+          <ListItem button>
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Profile" />
+          </ListItem>
+          <ListItem button>
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary="Notifications" />
+          </ListItem>
+          <ListItem button onClick={logout}>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+            <ListItemText primary="Logout" />
+          </ListItem>
         </List>
       </Drawer>
       <main
@@ -396,4 +399,16 @@ export default function App() {
       </main>
     </div>
   );
-}
+};
+
+Dashboard.propTypes = {
+  logout: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  window: PropTypes.func
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { logout })(Dashboard);
