@@ -16,6 +16,7 @@
     "@devexpress/dx-react-core": "^2.6.3",
     "@devexpress/dx-react-grid": "^2.6.3",
     "@devexpress/dx-react-grid-material-ui": "^2.6.3",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "client": "file:client",

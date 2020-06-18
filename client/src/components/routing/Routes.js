@@ -35,6 +35,7 @@ import ReceiptIcon from '@material-ui/icons/Receipt';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import Alert from '../layout/Alert';
 
 const drawerWidth = 240;
 
@@ -227,6 +228,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
       >
         <div className={classes.drawerHeader} />
         <section className="container">
+          <Alert />
           <Switch>
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />

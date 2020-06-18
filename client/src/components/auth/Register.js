@@ -69,7 +69,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== password2) {
-      setAlert('Passwords do not match', 'danger');
+      setAlert('Passwords do not match', 'error');
     } else {
       register({ name, email, password });
     }
@@ -97,7 +97,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
             <CssBaseline />
             <div className={classes.paper}>
               <LockOpenIcon fontSize="large" className={classes.avatar} />
-
               <Typography component="h1" variant="h5">
                 Register
               </Typography>
