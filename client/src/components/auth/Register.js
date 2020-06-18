@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -82,22 +82,6 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
   return (
     <React.Fragment>
       <div>
-        <nav>
-          <div
-            style={{
-              backgroundColor: ' #D3D3D3',
-              width: '100%',
-              top: '0',
-              left: '0',
-              marginBottom: '10px'
-            }}
-          >
-            <img
-              src="https://www.happiestminds.com/wp-content/themes/hmtheme/images/happiest_mind_logo.png"
-              alt="Happiest Minds"
-            />
-          </div>
-        </nav>
         <div
           style={{
             height: '84vh',
@@ -186,14 +170,15 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                 <Grid container>
                   <Grid item xs></Grid>
                   <Grid item>
-                    <Link href="/Login" variant="body2">
-                      {'Already have an account? Login'}
+                    Already have an account?
+                    <Link to="/Login" variant="body2">
+                      {' Login'}
                     </Link>
                   </Grid>
                 </Grid>
               </form>
             </div>
-            <Box mt={7}>
+            <Box mt={3}>
               <Copyright />
             </Box>
           </Container>

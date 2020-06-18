@@ -5,7 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -77,22 +77,6 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <div>
-      <nav>
-        <div
-          style={{
-            backgroundColor: ' #D3D3D3',
-            width: '100%',
-            top: '0',
-            left: '0',
-            marginBottom: '10px'
-          }}
-        >
-          <img
-            src="https://www.happiestminds.com/wp-content/themes/hmtheme/images/happiest_mind_logo.png"
-            alt="Happiest Minds"
-          />
-        </div>
-      </nav>
       <div
         style={{
           height: '71vh',
@@ -161,7 +145,7 @@ const Login = ({ login, isAuthenticated }) => {
                 </Grid>
                 <Grid item>
                   Don't have an account?
-                  <Link href="/Register" variant="body2">
+                  <Link to="/Register" variant="body2">
                     {'Sign Up'}
                   </Link>
                 </Grid>
