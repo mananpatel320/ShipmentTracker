@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   FilteringState,
   IntegratedFiltering,
@@ -13,16 +13,21 @@ import {
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
 import DateRange from '@material-ui/icons/DateRange';
-import Data from './data';
 import { SortingState, IntegratedSorting } from '@devexpress/dx-react-grid';
 import { PagingState, IntegratedPaging } from '@devexpress/dx-react-grid';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { getShipments } from '../../actions/shipment';
 
 const FilterIcon = ({ type, ...restProps }) => {
   if (type === 'month') return <DateRange {...restProps} />;
   return <TableFilterRow.Icon type={type} {...restProps} />;
 };
 
-export default () => {
+const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
+  useEffect(() => {
+    getShipments();
+  }, [getShipments]);
   const [columns] = useState([
     { name: 'consignmentName', title: 'Consignment Name' },
     {
@@ -34,6 +39,7 @@ export default () => {
     { name: 'createdBy', title: 'Created By' },
     { name: 'dateCreated', title: 'Date Created' }
   ]);
+
   const [dateColumns] = useState(['dateCreated']);
   const [dateFilterOperations] = useState([
     'month',
@@ -60,7 +66,17 @@ export default () => {
 
   return (
     <Paper>
-      <Grid rows={Data} columns={columns}>
+      <Grid
+        rows={shipments.map((shipment) => ({
+          consignmentName: shipment.name,
+          consignmentNumber: shipment.number,
+          origin: shipment.shipper.city,
+          destination: shipment.receiver.city,
+          createdBy: shipment.shipper.firstName,
+          dateCreated: shipment.date
+        }))}
+        columns={columns}
+      >
         <DataTypeProvider
           for={dateColumns}
           availableFilterOperations={dateFilterOperations}
@@ -96,3 +112,14 @@ export default () => {
     </Paper>
   );
 };
+
+Dashboard.propTypes = {
+  getShipments: PropTypes.func.isRequired,
+  shipment: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  shipment: state.shipment
+});
+
+export default connect(mapStateToProps, { getShipments })(Dashboard);

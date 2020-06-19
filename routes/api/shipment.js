@@ -47,7 +47,8 @@ router.post(
         deliveryDate: req.body.deliveryDate,
         shipper: req.body.shipper,
         receiver: req.body.receiver,
-        edgeDevices: req.body.edgeDevices
+        edgeDevices: req.body.edgeDevices,
+        number: req.body.number
       });
 
       const shipment = await newShipment.save();

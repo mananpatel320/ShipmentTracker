@@ -15,6 +15,9 @@ const ShipmentSchema = new Schema({
   quantity: {
     type: Number
   },
+  number: {
+    type: Number
+  },
   fragile: {
     type: Boolean
   },
