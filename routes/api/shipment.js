@@ -22,11 +22,11 @@ router.get('/', auth, async (req, res) => {
 });
 
 // @route   POST api/shipment/
-// @desc    Create a new shipment
+// @desc    Create or update a shipment
 // @access  Private
 router.post(
   '/',
-  [auth, [check('name', 'Name is required').not().isEmpty()]],
+  [auth, [check('name', 'Username is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

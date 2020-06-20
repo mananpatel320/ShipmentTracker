@@ -4,7 +4,6 @@ import Register from '../auth/Register';
 import { Link } from 'react-router-dom';
 import Login from '../auth/Login';
 import Dashboard from '../dashboard/dashboard';
-import template from '../dashboard/template';
 import createShip from '../dashboard/createShip';
 import PrivateRoute from './PrivateRoute';
 import classNames from 'classnames';
@@ -234,7 +233,6 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute exact path="/createship" component={createShip} />
-            <PrivateRoute exact path="/template" component={template} />
           </Switch>
         </section>
       </main>

@@ -18,6 +18,7 @@ import { PagingState, IntegratedPaging } from '@devexpress/dx-react-grid';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getShipments } from '../../actions/shipment';
+import Spinner from '../layout/Spinner';
 
 const FilterIcon = ({ type, ...restProps }) => {
   if (type === 'month') return <DateRange {...restProps} />;
@@ -65,51 +66,57 @@ const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
   ]);
 
   return (
-    <Paper>
-      <Grid
-        rows={shipments.map((shipment) => ({
-          consignmentName: shipment.name,
-          consignmentNumber: shipment.number,
-          origin: shipment.shipper.city,
-          destination: shipment.receiver.city,
-          createdBy: shipment.shipper.firstName,
-          dateCreated: shipment.date
-        }))}
-        columns={columns}
-      >
-        <DataTypeProvider
-          for={dateColumns}
-          availableFilterOperations={dateFilterOperations}
-        />
-        <SortingState
-          defaultSorting={[{ columnName: 'dateCreated', direction: 'asc' }]}
-        />
-        <IntegratedSorting />
-        <FilteringState defaultFilters={[]} />
-        <IntegratedFiltering columnExtensions={filteringColumnExtensions} />
-        <PagingState
-          currentPage={currentPage}
-          onCurrentPageChange={setCurrentPage}
-          pageSize={pageSize}
-          onPageSizeChange={setPageSize}
-        />
-        <IntegratedPaging />
-        <Table />
-        <TableHeaderRow />
-        <PagingPanel pageSizes={pageSizes} />
+    <div>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Paper>
+          <Grid
+            rows={shipments.map((shipment) => ({
+              consignmentName: shipment.name,
+              consignmentNumber: shipment.number,
+              origin: shipment.shipper.city,
+              destination: shipment.receiver.city,
+              createdBy: shipment.shipper.firstName,
+              dateCreated: shipment.date
+            }))}
+            columns={columns}
+          >
+            <DataTypeProvider
+              for={dateColumns}
+              availableFilterOperations={dateFilterOperations}
+            />
+            <SortingState
+              defaultSorting={[{ columnName: 'dateCreated', direction: 'asc' }]}
+            />
+            <IntegratedSorting />
+            <FilteringState defaultFilters={[]} />
+            <IntegratedFiltering columnExtensions={filteringColumnExtensions} />
+            <PagingState
+              currentPage={currentPage}
+              onCurrentPageChange={setCurrentPage}
+              pageSize={pageSize}
+              onPageSizeChange={setPageSize}
+            />
+            <IntegratedPaging />
+            <Table />
+            <TableHeaderRow />
+            <PagingPanel pageSizes={pageSizes} />
 
-        <Table />
-        <TableHeaderRow showSortingControls />
-        <TableFilterRow
-          showFilterSelector
-          iconComponent={FilterIcon}
-          messages={{ month: 'Month equals' }}
-          style={{
-            marginRight: '2%'
-          }}
-        />
-      </Grid>
-    </Paper>
+            <Table />
+            <TableHeaderRow showSortingControls />
+            <TableFilterRow
+              showFilterSelector
+              iconComponent={FilterIcon}
+              messages={{ month: 'Month equals' }}
+              style={{
+                marginRight: '2%'
+              }}
+            />
+          </Grid>
+        </Paper>
+      )}
+    </div>
   );
 };
 

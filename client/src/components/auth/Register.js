@@ -8,13 +8,13 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-
+import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
+import Avatar from '@material-ui/core/Avatar';
 
 function Copyright() {
   return (
@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center'
   },
   avatar: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -96,9 +97,11 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
           <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
-              <LockOpenIcon fontSize="large" className={classes.avatar} />
+              <Avatar className={classes.avatar}>
+                <LockOpenOutlinedIcon />
+              </Avatar>
               <Typography component="h1" variant="h5">
-                Register
+                Sign Up
               </Typography>
               <form className={classes.form} noValidate onSubmit={onSubmit}>
                 <TextField
