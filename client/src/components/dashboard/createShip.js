@@ -77,13 +77,13 @@ const steps = [
 function getStepContent(step) {
   switch (step) {
     case 0:
-      return <AddressDest />;
+      return <AddressSource />;
     case 1:
       return <ProdDet />;
     case 2:
       return <IoT />;
     case 3:
-      return <AddressSource />;
+      return <AddressDest />;
     case 4:
       return <Legs />;
     default:

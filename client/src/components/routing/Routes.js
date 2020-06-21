@@ -6,6 +6,7 @@ import Login from '../auth/Login';
 import Dashboard from '../dashboard/dashboard';
 import createShip from '../dashboard/createShip';
 import PrivateRoute from './PrivateRoute';
+import Tracker from '../shipmentTrack/Tracker';
 import classNames from 'classnames';
 import { logout } from '../../actions/auth';
 import { connect } from 'react-redux';
@@ -114,7 +115,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
           </ListItemIcon>
           <ListItemText primary="Create Shipment" />
         </ListItem>
-        <ListItem button>
+        <ListItem button component={Link} to="/track">
           <ListItemIcon>
             <TrackChangesIcon />
           </ListItemIcon>
@@ -233,6 +234,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
             <PrivateRoute exact path="/createship" component={createShip} />
+            <PrivateRoute exact path="/track" component={Tracker} />
           </Switch>
         </section>
       </main>

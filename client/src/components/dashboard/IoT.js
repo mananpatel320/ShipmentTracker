@@ -1,9 +1,9 @@
-import React from "react";
-import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
+import React from 'react';
+import Typography from '@material-ui/core/Typography';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
 // import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+import Checkbox from '@material-ui/core/Checkbox';
 // import Button from "@material-ui/core/Button";
 // import Menu from "@material-ui/core/Menu";
 // import MenuItem from "@material-ui/core/MenuItem";
@@ -13,7 +13,7 @@ import Checkbox from "@material-ui/core/Checkbox";
 // import Select from "@material-ui/core/Select";
 // import { makeStyles } from "@material-ui/core/styles";
 // import { typography } from "material-ui/styles";
-import InputAdornment from "@material-ui/core/InputAdornment";
+import InputAdornment from '@material-ui/core/InputAdornment';
 // import MaterialTable from "material-table";
 // const targetArray=["Cafe","Restraunts"];
 
@@ -63,7 +63,7 @@ export default function IoT() {
           <Checkbox
             checked={checked}
             onChange={handleChange1}
-            inputProps={{ "aria-label": "primary checkbox" }}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <typography variant="h6">Temperature</typography>
         </Grid>
@@ -74,7 +74,7 @@ export default function IoT() {
             fullWidth
             disabled={!checked}
             InputProps={{
-              endAdornment: <InputAdornment position="end"> °C</InputAdornment>,
+              endAdornment: <InputAdornment position="end"> °C</InputAdornment>
             }}
             type="number"
           />
@@ -86,7 +86,7 @@ export default function IoT() {
             fullWidth
             disabled={!checked}
             InputProps={{
-              endAdornment: <InputAdornment position="end"> °C</InputAdornment>,
+              endAdornment: <InputAdornment position="end"> °C</InputAdornment>
             }}
             type="number"
           />
@@ -96,7 +96,7 @@ export default function IoT() {
           <Checkbox
             checked={pres}
             onChange={handlePres}
-            inputProps={{ "aria-label": "primary checkbox" }}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <typography variant="h6">Pressure</typography>
         </Grid>
@@ -107,7 +107,7 @@ export default function IoT() {
             fullWidth
             disabled={!pres}
             InputProps={{
-              endAdornment: <InputAdornment position="end"> Pa</InputAdornment>,
+              endAdornment: <InputAdornment position="end"> Pa</InputAdornment>
             }}
             type="number"
           />
@@ -119,7 +119,7 @@ export default function IoT() {
             fullWidth
             disabled={!pres}
             InputProps={{
-              endAdornment: <InputAdornment position="end"> Pa</InputAdornment>,
+              endAdornment: <InputAdornment position="end"> Pa</InputAdornment>
             }}
             type="number"
           />
@@ -129,7 +129,7 @@ export default function IoT() {
           <Checkbox
             checked={vibr}
             onChange={handleVibr}
-            inputProps={{ "aria-label": "primary checkbox" }}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <typography variant="h6">Vibration</typography>
         </Grid>
@@ -140,7 +140,7 @@ export default function IoT() {
             fullWidth
             disabled={!vibr}
             InputProps={{
-              endAdornment: <InputAdornment position="end"> Hz</InputAdornment>,
+              endAdornment: <InputAdornment position="end"> Hz</InputAdornment>
             }}
             type="number"
           />
@@ -152,7 +152,7 @@ export default function IoT() {
             fullWidth
             disabled={!vibr}
             InputProps={{
-              endAdornment: <InputAdornment position="end"> Hz</InputAdornment>,
+              endAdornment: <InputAdornment position="end"> Hz</InputAdornment>
             }}
             type="number"
           />
@@ -161,7 +161,7 @@ export default function IoT() {
         <Grid item xs={12} md={12}>
           <Checkbox
             checked={gps}
-            inputProps={{ "aria-label": "primary checkbox" }}
+            inputProps={{ 'aria-label': 'primary checkbox' }}
           />
           <typography variant="h6">G.P.S.</typography>
         </Grid>

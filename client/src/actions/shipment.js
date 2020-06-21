@@ -25,15 +25,21 @@ export const getShipments = () => async (dispatch) => {
   }
 };
 
-//Add or update Shipment
-export const createShipment = (formData, history, edit = false) => async (
-  dispatch
-) => {
+//Add new Shipment
+export const createShipment = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/shipment', formData);
 
-    dispatch(
-      setAlert(edit ? 'Shipment Updated' : 'Shipment Created', 'success')
-    );
-  } catch (err) {}
+    dispatch({
+      type: ADD_SHIPMENT,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Shipment Created', 'success'));
+  } catch (err) {
+    dispatch({
+      type: SHIPMENT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
 };
