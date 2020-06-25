@@ -1,12 +1,13 @@
-import React from "react";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
+import React from 'react';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
 
-export default function IoTDetails() {
+const IoTDetails = ({ shipment: { edgeDevices } }) => {
   return (
     <React.Fragment>
       <Table size="small">
@@ -38,25 +39,47 @@ export default function IoTDetails() {
             <TableCell>
               <b>TEMPERATURE </b>(°C)
             </TableCell>
-            <TableCell>27</TableCell>
-            <TableCell>40</TableCell>
+            <TableCell>
+              {edgeDevices.temperature.optValue -
+                edgeDevices.temperature.errorMargin}
+            </TableCell>
+            <TableCell>
+              {edgeDevices.temperature.optValue +
+                edgeDevices.temperature.errorMargin}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
               <b>PRESSURE </b>(Pa)
             </TableCell>
-            <TableCell>56</TableCell>
-            <TableCell>78</TableCell>
+            <TableCell>
+              {edgeDevices.pressure.optValue - edgeDevices.pressure.errorMargin}
+            </TableCell>
+            <TableCell>
+              {edgeDevices.pressure.optValue + edgeDevices.pressure.errorMargin}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
-              <b>HEARTBEAT </b>(BPM)
+              <b>VIBRATION </b>(Hz)
             </TableCell>
-            <TableCell>30</TableCell>
-            <TableCell>45</TableCell>
+            <TableCell>
+              {edgeDevices.vibration.optValue -
+                edgeDevices.vibration.errorMargin}
+            </TableCell>
+            <TableCell>
+              {edgeDevices.vibration.optValue +
+                edgeDevices.vibration.errorMargin}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </React.Fragment>
   );
-}
+};
+
+IoTDetails.propTypes = {
+  shipment: PropTypes.object.isRequired
+};
+
+export default IoTDetails;

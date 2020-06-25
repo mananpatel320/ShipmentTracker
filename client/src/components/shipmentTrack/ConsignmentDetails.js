@@ -5,8 +5,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
+import PropTypes from 'prop-types';
 
-export default function Details() {
+const ConsignmentDetails = ({
+  shipment: { name, shipper, receiver, quantity, fragile }
+}) => {
   return (
     <React.Fragment>
       <Table size="small">
@@ -20,34 +23,46 @@ export default function Details() {
             <TableCell>
               <b>SHIPPER NAME</b>
             </TableCell>
-            <TableCell>ABC Shippers</TableCell>
+            <TableCell>
+              {shipper.firstName + ' '}
+              {shipper.lastName}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
               <b>RECEIVER NAME</b>
             </TableCell>
-            <TableCell>XYZ Retails</TableCell>
+            <TableCell>
+              {receiver.firstName + ' '}
+              {receiver.lastName}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
               <b>PRODUCT NAME</b>
             </TableCell>
-            <TableCell>MEDICINE</TableCell>
+            <TableCell>{name}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
               <b>PRODUCT SPECIFICATION</b>
             </TableCell>
-            <TableCell>FRAGILE</TableCell>
+            <TableCell>{fragile ? 'FRAGILE' : 'NOT FRAGILE'}</TableCell>
           </TableRow>
           <TableRow>
             <TableCell>
               <b>QUANTITY</b>
             </TableCell>
-            <TableCell>500</TableCell>
+            <TableCell>{quantity}</TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </React.Fragment>
   );
-}
+};
+
+ConsignmentDetails.propTypes = {
+  shipment: PropTypes.object.isRequired
+};
+
+export default ConsignmentDetails;

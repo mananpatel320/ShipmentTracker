@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Register from '../auth/Register';
 import { Link } from 'react-router-dom';
 import Login from '../auth/Login';
-import Dashboard from '../dashboard/dashboard';
-import createShip from '../dashboard/createShip';
+import Dashboard from '../dashboard/Dashboard';
+import CreateShip from '../dashboard/CreateShip';
 import PrivateRoute from './PrivateRoute';
 import Tracker from '../shipmentTrack/Tracker';
 import classNames from 'classnames';
@@ -29,13 +29,16 @@ import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import ReceiptIcon from '@material-ui/icons/Receipt';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import Alert from '../layout/Alert';
+import Badge from '@material-ui/core/Badge';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import MoreIcon from '@material-ui/icons/MoreVert';
 
 const drawerWidth = 240;
 
@@ -93,6 +96,23 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen
     }),
     marginLeft: 0
+  },
+  grow: {
+    flexGrow: 1
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex'
+    },
+    alignContent: 'flex-end',
+    alignItems: 'flex-end'
+  },
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none'
+    }
   }
 }));
 
@@ -114,12 +134,6 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             <AddCircleIcon />
           </ListItemIcon>
           <ListItemText primary="Create Shipment" />
-        </ListItem>
-        <ListItem button component={Link} to="/track">
-          <ListItemIcon>
-            <TrackChangesIcon />
-          </ListItemIcon>
-          <ListItemText primary="Track Shipment" />
         </ListItem>
         <ListItem button>
           <ListItemIcon>
@@ -198,6 +212,40 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             src="https://www.happiestminds.com/wp-content/themes/hmtheme/images/happiest_mind_logo.png"
             alt="Happiest Minds"
           />
+          {!loading && isAuthenticated && (
+            <Fragment>
+              <div className={classes.grow} />
+              <div className={classes.sectionDesktop}>
+                <IconButton
+                  aria-label="show 17 new notifications"
+                  color="inherit"
+                >
+                  <Badge badgeContent={17} color="secondary">
+                    <NotificationsIcon />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  aria-label="account of current user"
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="logout"
+                  color="inherit"
+                  onClick={logout}
+                >
+                  <ExitToAppIcon />
+                </IconButton>
+              </div>
+              <div className={classes.sectionMobile}>
+                <IconButton aria-label="show more" color="inherit">
+                  <MoreIcon />
+                </IconButton>
+              </div>
+            </Fragment>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -233,8 +281,8 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
-            <PrivateRoute exact path="/createship" component={createShip} />
-            <PrivateRoute exact path="/track" component={Tracker} />
+            <PrivateRoute exact path="/createship" component={CreateShip} />
+            <PrivateRoute exact path="/track/:id" component={Tracker} />
           </Switch>
         </section>
       </main>

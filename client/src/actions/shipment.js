@@ -3,8 +3,8 @@ import {
   GET_SHIPMENTS,
   SHIPMENT_ERROR,
   // DELETE_SHIPMENT,
-  ADD_SHIPMENT
-  // GET_SHIPMENT
+  ADD_SHIPMENT,
+  GET_SHIPMENT
 } from './types';
 import { setAlert } from './alert';
 
@@ -12,7 +12,7 @@ import { setAlert } from './alert';
 export const getShipments = () => async (dispatch) => {
   try {
     const res = await api.get('/shipment');
-    console.log(res.data);
+
     dispatch({
       type: GET_SHIPMENTS,
       payload: res.data
@@ -36,6 +36,23 @@ export const createShipment = (formData) => async (dispatch) => {
     });
 
     dispatch(setAlert('Shipment Created', 'success'));
+  } catch (err) {
+    dispatch({
+      type: SHIPMENT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Get shipment
+export const getShipment = (id) => async (dispatch) => {
+  try {
+    const res = await api.get(`/shipment/${id}`);
+
+    dispatch({
+      type: GET_SHIPMENT,
+      payload: res.data
+    });
   } catch (err) {
     dispatch({
       type: SHIPMENT_ERROR,

@@ -1,26 +1,26 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { makeStyles } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import Collapse from "@material-ui/core/Collapse";
-import IconButton from "@material-ui/core/IconButton";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Typography from "@material-ui/core/Typography";
-import Paper from "@material-ui/core/Paper";
-import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
-import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { makeStyles } from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 
 const useRowStyles = makeStyles({
   root: {
-    "& > *": {
-      borderBottom: "unset",
-    },
-  },
+    '& > *': {
+      borderBottom: 'unset'
+    }
+  }
 });
 
 function createData(source, dest, vehop) {
@@ -29,9 +29,9 @@ function createData(source, dest, vehop) {
     dest,
     vehop,
     history: [
-      { date: "19/06/2020", TimeId: "15:20:30", Activity: "Dispatched" },
-      { date: "20/06/2020", TimeId: "20:12:45", Activity: "Received" },
-    ],
+      { date: '19/06/2020', TimeId: '15:20:30', Activity: 'Dispatched' },
+      { date: '20/06/2020', TimeId: '20:12:45', Activity: 'Received' }
+    ]
   };
 }
 
@@ -110,22 +110,22 @@ Row.propTypes = {
       PropTypes.shape({
         Activity: PropTypes.number.isRequired,
         TimeId: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
+        date: PropTypes.string.isRequired
       })
     ).isRequired,
-    source: PropTypes.string.isRequired,
-  }).isRequired,
+    source: PropTypes.string.isRequired
+  }).isRequired
 };
 
 const rows = [
-  createData("Bangalore", "Hosur", "Kevin"),
-  createData("Hosur", "Chennai", "Ron"),
-  createData("Chennai", "Hyderabad", "Harry"),
-  createData("Hyderabad", "Mumbai", "David"),
+  createData('Bangalore', 'Hosur', 'Kevin'),
+  createData('Hosur', 'Chennai', 'Ron'),
+  createData('Chennai', 'Hyderabad', 'Harry'),
+  createData('Hyderabad', 'Mumbai', 'David')
   //   createData("Patna", "Kolkata", "Joshua"),
 ];
 
-export default function CollapsibleTable() {
+const ConsignmentTable = () => {
   return (
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
@@ -135,8 +135,6 @@ export default function CollapsibleTable() {
             <TableCell>Source</TableCell>
             <TableCell align="center">Destination</TableCell>
             <TableCell align="center">Vehicle Operator</TableCell>
-            {/* <TableCell align="right"nbsp;(g)</TableCell>
-            <TableCell align="right">nbsp;(g)</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -147,4 +145,6 @@ export default function CollapsibleTable() {
       </Table>
     </TableContainer>
   );
-}
+};
+
+export default ConsignmentTable;

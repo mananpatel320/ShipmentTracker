@@ -19,22 +19,31 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getShipments } from '../../actions/shipment';
 import Spinner from '../layout/Spinner';
+import TrackChangesIcon from '@material-ui/icons/TrackChanges';
+import Button from '@material-ui/core/Button';
+import { Link } from 'react-router-dom';
 
 const FilterIcon = ({ type, ...restProps }) => {
   if (type === 'month') return <DateRange {...restProps} />;
   return <TableFilterRow.Icon type={type} {...restProps} />;
 };
 
+const getRowId = (row) => row.id;
+
 const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
   useEffect(() => {
     getShipments();
   }, [getShipments]);
   const [columns] = useState([
-    { name: 'consignmentName', title: 'Consignment Name' },
+    {
+      name: 'trackerButton',
+      title: 'Open Tracker'
+    },
     {
       name: 'consignmentNumber',
-      title: 'Consignment Number'
+      title: 'Number'
     },
+    { name: 'consignmentName', title: 'Name' },
     { name: 'origin', title: 'Origin' },
     { name: 'destination', title: 'Destination' },
     { name: 'createdBy', title: 'Created By' },
@@ -73,14 +82,27 @@ const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
         <Paper>
           <Grid
             rows={shipments.map((shipment) => ({
-              consignmentName: shipment.name,
+              trackerButton: (
+                <Button
+                  variant="contained"
+                  component={Link}
+                  to={`/track/${shipment._id}`}
+                  title="Open row"
+                  color="primary"
+                  startIcon={<TrackChangesIcon />}
+                >
+                  {shipment.number}
+                </Button>
+              ),
               consignmentNumber: shipment.number,
+              consignmentName: shipment.name,
               origin: shipment.shipper.city,
               destination: shipment.receiver.city,
               createdBy: shipment.shipper.firstName,
               dateCreated: shipment.date
             }))}
             columns={columns}
+            getRowId={getRowId}
           >
             <DataTypeProvider
               for={dateColumns}
@@ -90,7 +112,12 @@ const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
               defaultSorting={[{ columnName: 'dateCreated', direction: 'asc' }]}
             />
             <IntegratedSorting />
-            <FilteringState defaultFilters={[]} />
+            <FilteringState
+              defaultFilters={[]}
+              columnExtensions={[
+                { columnName: 'trackerButton', filteringEnabled: false }
+              ]}
+            />
             <IntegratedFiltering columnExtensions={filteringColumnExtensions} />
             <PagingState
               currentPage={currentPage}
@@ -98,13 +125,16 @@ const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
               pageSize={pageSize}
               onPageSizeChange={setPageSize}
             />
+
             <IntegratedPaging />
             <Table />
             <TableHeaderRow />
+
             <PagingPanel pageSizes={pageSizes} />
 
             <Table />
             <TableHeaderRow showSortingControls />
+
             <TableFilterRow
               showFilterSelector
               iconComponent={FilterIcon}

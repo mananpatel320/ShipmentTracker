@@ -5,7 +5,9 @@ import {
   ArgumentAxis,
   ValueAxis,
   LineSeries,
-  ZoomAndPan
+  ZoomAndPan,
+  Title,
+  Legend
 } from '@devexpress/dx-react-chart-material-ui';
 import { scaleTime } from 'd3-scale';
 import { ArgumentScale } from '@devexpress/dx-react-chart';
@@ -13,16 +15,16 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
 
-// import dt from "./dt";
-
 const generateData = (n) => {
   const ret = [];
   let y = 0;
+  let ub = 10;
+  let lb = -10;
   const dt = new Date();
   for (let i = 0; i < n; i += 1) {
     dt.setHours(dt.getHours() + 1);
     y += Math.round(Math.random() * 10 - 5);
-    ret.push({ x: new Date(dt), y });
+    ret.push({ x: new Date(dt), y, ub, lb });
   }
   return ret;
 };
@@ -95,20 +97,36 @@ export default class Demo extends React.PureComponent {
             <Chart data={chartData} rootComponent={ChartRoot}>
               <ArgumentScale factory={scaleTime} />
               <ArgumentAxis />
-              <ValueAxis name="IoT" />
+              <ValueAxis />
 
-              <LineSeries valueField="y" argumentField="x" />
+              <LineSeries
+                valueField="y"
+                argumentField="x"
+                name="x:Time, y:Temperature(°C)"
+                color="#0595fc"
+                Legend
+              />
+
+              <LineSeries
+                valueField="ub"
+                argumentField="x"
+                name="Upper Bound"
+                color="#fc5805"
+              />
+              <LineSeries
+                valueField="lb"
+                argumentField="x"
+                name="Lower Bound"
+                color="#05fc6c"
+              />
+              <Legend position="right" />
               <ZoomAndPan
                 interactionWithArguments={getMode(zoomArgument, panArgument)}
                 interactionWithValues={getMode(zoomValue, panValue)}
               />
+
+              <Title text="Temperature" />
             </Chart>
-            {/* <FormGroup style={inputsContainerStyle} row>
-          {this.renderInput("zoomArgument", "Zoom argument")}
-          {this.renderInput("panArgument", "Pan argument")}
-          {this.renderInput("zoomValue", "Zoom value")}
-          {this.renderInput("panValue", "Pan value")}
-        </FormGroup> */}
           </Paper>
         </Grid>
       </Grid>

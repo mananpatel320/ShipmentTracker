@@ -115,6 +115,9 @@ const ShipmentSchema = new Schema({
       },
       departureDate: {
         type: Date
+      },
+      vehicleOperator: {
+        type: String
       }
     }
   ]
