@@ -26,7 +26,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import MailIcon from '@material-ui/icons/Mail';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -152,7 +151,9 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
         </ListItem>
         <ListItem button>
           <ListItemIcon>
-            <MailIcon />
+            <Badge badgeContent={17} color="secondary">
+              <NotificationsIcon />
+            </Badge>
           </ListItemIcon>
           <ListItemText primary="Notifications" />
         </ListItem>

@@ -1,0 +1,52 @@
+{
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "POINT_ID": 1,
+        "NAME": "SOURCE",
+        "DESCRIPTION": "BANGALORE"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.5946, 12.9716]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "POINT_ID": 2,
+        "NAME": "DESTINATION",
+        "DESCRIPTION": "MUMBAI"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.877655, 19.075983]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "POINT_ID": 3,
+        "NAME": "LEG",
+        "DESCRIPTION": "HYDERABAD"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [78.486671, 17.385044]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "POINT_ID": 4,
+        "NAME": "CURRENT LOCATION",
+        "DESCRIPTION": ""
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [80.270721, 13.08268]
+      }
+    }
+  ]
+}

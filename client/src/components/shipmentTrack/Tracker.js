@@ -23,6 +23,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { getShipment } from '../../actions/shipment';
 import Spinner from '../layout/Spinner';
 import Moment from 'react-moment';
+import Map from './map';
 
 function Copyright() {
   return (
@@ -211,6 +212,9 @@ const Tracker = ({ getShipment, shipment: { shipment, loading }, match }) => {
         </Grid>
         <Grid item xs={12} md={12}>
           <Chart2 />
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <Map />
         </Grid>
         <Grid item xs={12} md={12}>
           <Box pt={4}>

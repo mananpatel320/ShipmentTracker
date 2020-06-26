@@ -20,7 +20,7 @@ export const getShipments = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: SHIPMENT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response && err.response.statusText, status: err.response && err.response.status }
     });
   }
 };

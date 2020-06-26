@@ -26,8 +26,10 @@
     "express-validator": "^6.4.0",
     "gravatar": "^1.8.0",
     "jsonwebtoken": "^8.5.1",
+    "leaflet": "^1.6.0",
     "mongoose": "^5.9.5",
     "normalize-url": "^5.0.0",
+    "react-leaflet": "^2.7.0",
     "typeface-roboto": "0.0.75"
   },
   "devDependencies": {
