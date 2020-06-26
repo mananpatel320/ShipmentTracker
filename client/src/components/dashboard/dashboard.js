@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   FilteringState,
   IntegratedFiltering,
@@ -9,6 +10,7 @@ import {
   Table,
   TableHeaderRow,
   TableFilterRow,
+  TableColumnResizing,
   PagingPanel
 } from '@devexpress/dx-react-grid-material-ui';
 import Paper from '@material-ui/core/Paper';
@@ -22,6 +24,10 @@ import Spinner from '../layout/Spinner';
 import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const FilterIcon = ({ type, ...restProps }) => {
   if (type === 'month') return <DateRange {...restProps} />;
@@ -29,6 +35,17 @@ const FilterIcon = ({ type, ...restProps }) => {
 };
 
 const getRowId = (row) => row.id;
+
+const useStyles = makeStyles((theme) => ({
+  exampleWrapper: {
+    margin: 0,
+    top: 'auto',
+    right: 40,
+    bottom: 40,
+    left: 'auto',
+    position: 'fixed'
+  }
+}));
 
 const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
   useEffect(() => {
@@ -49,6 +66,8 @@ const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
     { name: 'createdBy', title: 'Created By' },
     { name: 'dateCreated', title: 'Date Created' }
   ]);
+
+  const classes = useStyles();
 
   const [dateColumns] = useState(['dateCreated']);
   const [dateFilterOperations] = useState([
@@ -73,78 +92,111 @@ const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
       }
     }
   ]);
+  const [defaultColumnWidths] = useState([
+    { columnName: 'trackerButton', width: 240 },
+    { columnName: 'consignmentNumber', width: 100 },
+    { columnName: 'consignmentName', width: 180 },
+    { columnName: 'origin', width: 130 },
+    { columnName: 'destination', width: 130 },
+    { columnName: 'createdBy', width: 130 },
+    { columnName: 'dateCreated', width: 180 }
+  ]);
 
   return (
     <div>
       {loading ? (
         <Spinner />
       ) : (
-        <Paper>
-          <Grid
-            rows={shipments.map((shipment) => ({
-              trackerButton: (
-                <Button
-                  variant="contained"
-                  component={Link}
-                  to={`/track/${shipment._id}`}
-                  title="Open row"
-                  color="primary"
-                  startIcon={<TrackChangesIcon />}
-                >
-                  {shipment.number}
-                </Button>
-              ),
-              consignmentNumber: shipment.number,
-              consignmentName: shipment.name,
-              origin: shipment.shipper.city,
-              destination: shipment.receiver.city,
-              createdBy: shipment.shipper.firstName,
-              dateCreated: shipment.date
-            }))}
-            columns={columns}
-            getRowId={getRowId}
-          >
-            <DataTypeProvider
-              for={dateColumns}
-              availableFilterOperations={dateFilterOperations}
-            />
-            <SortingState
-              defaultSorting={[{ columnName: 'dateCreated', direction: 'asc' }]}
-            />
-            <IntegratedSorting />
-            <FilteringState
-              defaultFilters={[]}
-              columnExtensions={[
-                { columnName: 'trackerButton', filteringEnabled: false }
-              ]}
-            />
-            <IntegratedFiltering columnExtensions={filteringColumnExtensions} />
-            <PagingState
-              currentPage={currentPage}
-              onCurrentPageChange={setCurrentPage}
-              pageSize={pageSize}
-              onPageSizeChange={setPageSize}
-            />
+        <Fragment>
+          <Paper>
+            <Grid
+              rows={shipments.map((shipment) => ({
+                trackerButton: (
+                  <Fragment>
+                    <Button
+                      variant="contained"
+                      component={Link}
+                      to={`/track/${shipment._id}`}
+                      title="Open row"
+                      color="primary"
+                      startIcon={<TrackChangesIcon />}
+                    >
+                      {shipment.number}
+                    </Button>
+                    <IconButton aria-label="delete" color="secondary">
+                      <DeleteIcon />
+                    </IconButton>
+                  </Fragment>
+                ),
+                consignmentNumber: shipment.number,
+                consignmentName: shipment.name,
+                origin: shipment.shipper.city,
+                destination: shipment.receiver.city,
+                createdBy: shipment.shipper.firstName,
+                dateCreated: shipment.date
+              }))}
+              columns={columns}
+              getRowId={getRowId}
+            >
+              <DataTypeProvider
+                for={dateColumns}
+                availableFilterOperations={dateFilterOperations}
+              />
+              <SortingState
+                defaultSorting={[
+                  { columnName: 'dateCreated', direction: 'asc' }
+                ]}
+              />
+              <IntegratedSorting />
+              <FilteringState
+                defaultFilters={[]}
+                columnExtensions={[
+                  { columnName: 'trackerButton', filteringEnabled: false }
+                ]}
+              />
+              <IntegratedFiltering
+                columnExtensions={filteringColumnExtensions}
+              />
+              <PagingState
+                currentPage={currentPage}
+                onCurrentPageChange={setCurrentPage}
+                pageSize={pageSize}
+                onPageSizeChange={setPageSize}
+              />
 
-            <IntegratedPaging />
-            <Table />
-            <TableHeaderRow />
+              <IntegratedPaging />
+              <Table />
+              <TableColumnResizing defaultColumnWidths={defaultColumnWidths} />
+              <TableHeaderRow />
 
-            <PagingPanel pageSizes={pageSizes} />
+              <PagingPanel pageSizes={pageSizes} />
 
-            <Table />
-            <TableHeaderRow showSortingControls />
+              <Table />
+              <TableColumnResizing defaultColumnWidths={defaultColumnWidths} />
 
-            <TableFilterRow
-              showFilterSelector
-              iconComponent={FilterIcon}
-              messages={{ month: 'Month equals' }}
-              style={{
-                marginRight: '2%'
-              }}
-            />
-          </Grid>
-        </Paper>
+              <TableHeaderRow showSortingControls />
+              <TableFilterRow
+                showFilterSelector
+                iconComponent={FilterIcon}
+                messages={{ month: 'Month equals' }}
+                style={{
+                  marginRight: '2%'
+                }}
+              />
+            </Grid>
+          </Paper>
+
+          <div className={classes.exampleWrapper}>
+            <Fab
+              color="secondary"
+              aria-label="add"
+              component={Link}
+              to="/createship"
+            >
+              <AddIcon />
+            </Fab>
+          </div>
+        </Fragment>
       )}
     </div>
   );
