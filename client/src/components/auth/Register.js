@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -8,6 +9,14 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import MenuItem from '@material-ui/core/MenuItem';
+import IconButton from '@material-ui/core/IconButton';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import FormControl from '@material-ui/core/FormControl';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import LockOpenOutlinedIcon from '@material-ui/icons/LockOpenOutlined';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -15,6 +24,29 @@ import { setAlert } from '../../actions/alert';
 import { register } from '../../actions/auth';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
+
+const roles = [
+  {
+    value: '0',
+    label: 'None'
+  },
+  {
+    value: '1',
+    label: 'Consignment Shipper'
+  },
+  {
+    value: '2',
+    label: 'Logistic Provider'
+  },
+  {
+    value: '3',
+    label: 'Insurance Provider'
+  },
+  {
+    value: '4',
+    label: 'Vehicle Operator'
+  }
+];
 
 function Copyright() {
   return (
@@ -39,6 +71,16 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center'
   },
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      width: '50ch'
+    }
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'flex-end'
+  },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main
@@ -49,20 +91,49 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  margin: {
+    margin: theme.spacing(1)
+  },
+  withoutLabel: {
+    marginTop: theme.spacing(3)
   }
 }));
 
 const Register = ({ setAlert, register, isAuthenticated }) => {
   const classes = useStyles();
 
+  const [values, setValues] = React.useState({
+    showPassword: false
+  });
+
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
   const [formData, setFormData] = useState({
-    name: '',
+    firstName: '',
+    lastName: '',
+    category: '',
+    username: '',
     email: '',
     password: '',
     password2: ''
   });
 
-  const { name, email, password, password2 } = formData;
+  const {
+    firstName,
+    lastName,
+    category,
+    username,
+    email,
+    password,
+    password2
+  } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -72,7 +143,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
     if (password !== password2) {
       setAlert('Passwords do not match', 'error');
     } else {
-      register({ name, email, password });
+      register({ firstName, lastName, category, username, email, password });
     }
   };
 
@@ -85,16 +156,16 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
       <div>
         <div
           style={{
-            height: '84vh',
+            height: '90vh',
             display: 'flex',
-            width: '42%',
+            width: '55%',
             margin: 'auto',
             marginTop: '1.5%',
             borderRadius: '20px',
             boxShadow: '5px 5px 20px 2px rgba(0,0,0,0.75)'
           }}
         >
-          <Container component="main" maxWidth="xs">
+          <Container component="main" maxWidth="sm">
             <CssBaseline />
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>
@@ -103,79 +174,173 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
               <Typography component="h1" variant="h5">
                 Sign Up
               </Typography>
-              <form className={classes.form} noValidate onSubmit={onSubmit}>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Username"
-                  name="name"
-                  autoComplete="name"
-                  value={name}
-                  onChange={onChange}
-                  autoFocus
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={onChange}
-                  autoFocus
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  value={password}
-                  onChange={onChange}
-                  autoComplete="current-password"
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password2"
-                  label="Confirm Password"
-                  type="password2"
-                  id="password2"
-                  value={password2}
-                  onChange={onChange}
-                />
+              <form className={classes.form} noValidate>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      required
+                      id="firstName"
+                      name="firstName"
+                      label="First name"
+                      fullWidth
+                      autoComplete="given-name"
+                      value={firstName}
+                      onChange={onChange}
+                      autoFocus
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                      id="lastName"
+                      name="lastName"
+                      label="Last name"
+                      fullWidth
+                      autoComplete="family-name"
+                      value={lastName}
+                      onChange={onChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      required
+                      id="username"
+                      name="username"
+                      label="Username"
+                      fullWidth
+                      autoComplete="username"
+                      value={username}
+                      onChange={onChange}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      id="email"
+                      required
+                      name="email"
+                      label="Email Address"
+                      fullWidth
+                      autoComplete="email"
+                      value={email}
+                      onChange={onChange}
+                    />
+                  </Grid>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} sm={6}>
+                      <FormControl
+                        className={clsx(classes.margin, classes.textField)}
+                        fullWidth
+                        required
+                      >
+                        <InputLabel htmlFor="standard-adornment-password">
+                          Password
+                        </InputLabel>
+                        <Input
+                          id="password"
+                          name="password"
+                          type={values.showPassword ? 'text' : 'password'}
+                          value={password}
+                          onChange={onChange}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                              >
+                                {values.showPassword ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          labelWidth={70}
+                        />
+                      </FormControl>
+                    </Grid>
+                    <Grid item xs={12} sm={6}>
+                      <FormControl
+                        className={clsx(classes.margin, classes.textField)}
+                        fullWidth
+                        required
+                      >
+                        <InputLabel htmlFor="standard-adornment-password">
+                          Confirm Password
+                        </InputLabel>
+                        <Input
+                          id="password2"
+                          name="password2"
+                          type={values.showPassword ? 'text' : 'password'}
+                          onChange={onChange}
+                          value={password2}
+                          endAdornment={
+                            <InputAdornment position="end">
+                              <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                              >
+                                {values.showPassword ? (
+                                  <Visibility />
+                                ) : (
+                                  <VisibilityOff />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          }
+                          labelWidth={70}
+                        />
+                      </FormControl>
+                    </Grid>
+                  </Grid>
+                  <form className={classes.root} noValidate autoComplete="off">
+                    <div>
+                      <TextField
+                        id="category"
+                        name="category"
+                        select
+                        label="Select"
+                        value={category}
+                        onChange={onChange}
+                        helperText="Please select your category"
+                      >
+                        {roles.map((option) => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
+                  </form>
 
-                <Button
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  color="primary"
-                  value="Register"
-                  className={classes.submit}
-                >
-                  Sign Up
-                </Button>
-                <Button variant="contained" color="secondary" fullWidth>
-                  Reset
-                </Button>
-                <Grid container>
-                  <Grid item xs></Grid>
-                  <Grid item>
-                    Already have an account?
-                    <Link to="/Login" variant="body2">
-                      {' Login'}
-                    </Link>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    fullWidth
+                    type="submit"
+                    value="Register"
+                    className={classes.submit}
+                  >
+                    Sign Up
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    fullWidth
+                    style={{ marginTop: '10px' }}
+                  >
+                    Reset
+                  </Button>
+                  <Grid container>
+                    <Grid item xs></Grid>
+                    <Grid item>
+                      Already have account?
+                      <Link to="/login" variant="body2">
+                        {' Login'}
+                      </Link>
+                    </Grid>
                   </Grid>
                 </Grid>
               </form>

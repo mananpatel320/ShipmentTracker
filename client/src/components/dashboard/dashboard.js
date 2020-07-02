@@ -19,7 +19,7 @@ import { SortingState, IntegratedSorting } from '@devexpress/dx-react-grid';
 import { PagingState, IntegratedPaging } from '@devexpress/dx-react-grid';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getShipments } from '../../actions/shipment';
+import { getShipments, deleteShipment } from '../../actions/shipment';
 import Spinner from '../layout/Spinner';
 import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import Button from '@material-ui/core/Button';
@@ -28,6 +28,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
+import useForceUpdate from 'use-force-update';
 
 const FilterIcon = ({ type, ...restProps }) => {
   if (type === 'month') return <DateRange {...restProps} />;
@@ -47,7 +48,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
+const Dashboard = ({
+  getShipments,
+  deleteShipment,
+  shipment: { shipments, loading }
+}) => {
   useEffect(() => {
     getShipments();
   }, [getShipments]);
@@ -66,6 +71,13 @@ const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
     { name: 'createdBy', title: 'Created By' },
     { name: 'dateCreated', title: 'Date Created' }
   ]);
+
+  const forceUpdate = useForceUpdate();
+
+  const handleClick = () => {
+    alert('I will re-render now');
+    forceUpdate();
+  };
 
   const classes = useStyles();
 
@@ -123,7 +135,13 @@ const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
                     >
                       {shipment.number}
                     </Button>
-                    <IconButton aria-label="delete" color="secondary">
+                    <IconButton
+                      aria-label="delete"
+                      color="secondary"
+                      onClick={() =>
+                        deleteShipment(shipment._id) && handleClick()
+                      }
+                    >
                       <DeleteIcon />
                     </IconButton>
                   </Fragment>
@@ -204,11 +222,14 @@ const Dashboard = ({ getShipments, shipment: { shipments, loading } }) => {
 
 Dashboard.propTypes = {
   getShipments: PropTypes.func.isRequired,
-  shipment: PropTypes.object.isRequired
+  shipment: PropTypes.object.isRequired,
+  deleteShipment: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   shipment: state.shipment
 });
 
-export default connect(mapStateToProps, { getShipments })(Dashboard);
+export default connect(mapStateToProps, { getShipments, deleteShipment })(
+  Dashboard
+);

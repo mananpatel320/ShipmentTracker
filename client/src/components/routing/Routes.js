@@ -8,6 +8,7 @@ import CreateShip from '../dashboard/CreateShip';
 import PrivateRoute from './PrivateRoute';
 import Tracker from '../shipmentTrack/Tracker';
 import Profile from '../profile/Profile';
+import Handover from '../handover/Handover';
 import classNames from 'classnames';
 import { logout } from '../../actions/auth';
 import { connect } from 'react-redux';
@@ -135,7 +136,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
           </ListItemIcon>
           <ListItemText primary="Create Shipment" />
         </ListItem>
-        <ListItem button>
+        <ListItem button component={Link} to="/handover">
           <ListItemIcon>
             <ReceiptIcon />
           </ListItemIcon>
@@ -288,6 +289,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             <PrivateRoute exact path="/createship" component={CreateShip} />
             <PrivateRoute exact path="/track/:id" component={Tracker} />
             <PrivateRoute exact path="/profile" component={Profile} />
+            <PrivateRoute exact path="/handover" component={Handover} />
           </Switch>
         </section>
       </main>

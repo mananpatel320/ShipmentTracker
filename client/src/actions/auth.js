@@ -26,8 +26,22 @@ export const loadUser = () => async (dispatch) => {
 };
 
 // Register User
-export const register = ({ name, email, password }) => async (dispatch) => {
-  const body = JSON.stringify({ name, email, password });
+export const register = ({
+  firstName,
+  lastName,
+  category,
+  username,
+  email,
+  password
+}) => async (dispatch) => {
+  const body = JSON.stringify({
+    firstName,
+    lastName,
+    category,
+    username,
+    email,
+    password
+  });
 
   try {
     const res = await api.post('/users', body);

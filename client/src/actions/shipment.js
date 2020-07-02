@@ -4,7 +4,8 @@ import {
   SHIPMENT_ERROR,
   // DELETE_SHIPMENT,
   ADD_SHIPMENT,
-  GET_SHIPMENT
+  GET_SHIPMENT,
+  DELETE_SHIPMENT
 } from './types';
 import { setAlert } from './alert';
 
@@ -20,7 +21,10 @@ export const getShipments = () => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: SHIPMENT_ERROR,
-      payload: { msg: err.response && err.response.statusText, status: err.response && err.response.status }
+      payload: {
+        msg: err.response && err.response.statusText,
+        status: err.response && err.response.status
+      }
     });
   }
 };
@@ -53,6 +57,25 @@ export const getShipment = (id) => async (dispatch) => {
       type: GET_SHIPMENT,
       payload: res.data
     });
+  } catch (err) {
+    dispatch({
+      type: SHIPMENT_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Delete shipment
+export const deleteShipment = (id) => async (dispatch) => {
+  try {
+    await api.delete(`/shipment/${id}`);
+
+    dispatch({
+      type: DELETE_SHIPMENT,
+      payload: id
+    });
+
+    dispatch(setAlert('Shipment deleted successfully', 'success'));
   } catch (err) {
     dispatch({
       type: SHIPMENT_ERROR,

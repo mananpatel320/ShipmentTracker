@@ -6,14 +6,17 @@ import {
   ValueAxis,
   LineSeries,
   ZoomAndPan,
-  Title,
-  Legend
+  Title
 } from '@devexpress/dx-react-chart-material-ui';
 import { scaleTime } from 'd3-scale';
 import { ArgumentScale } from '@devexpress/dx-react-chart';
+// import FormGroup from "@material-ui/core/FormGroup";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
+// import CssBaseline from "@material-ui/core/CssBaseline";
+
+// import dt from "./dt";
 
 const generateData = (n) => {
   const ret = [];
@@ -44,6 +47,7 @@ const getMode = (zoom, pan) => {
 };
 
 const chartRootStyle = { marginRight: '20px' };
+// const inputsContainerStyle = { justifyContent: "center" };
 
 const ChartRoot = (props) => <Chart.Root {...props} style={chartRootStyle} />;
 
@@ -119,9 +123,15 @@ export default class Demo extends React.PureComponent {
                 interactionWithArguments={getMode(zoomArgument, panArgument)}
                 interactionWithValues={getMode(zoomValue, panValue)}
               />
-              <Legend position="right" />
+              {/* <Legend position="right" /> */}
               <Title text="Vibration" />
             </Chart>
+            {/* <FormGroup style={inputsContainerStyle} row>
+          {this.renderInput("zoomArgument", "Zoom argument")}
+          {this.renderInput("panArgument", "Pan argument")}
+          {this.renderInput("zoomValue", "Zoom value")}
+          {this.renderInput("panValue", "Pan value")}
+        </FormGroup> */}
           </Paper>
         </Grid>
       </Grid>

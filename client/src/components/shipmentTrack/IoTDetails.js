@@ -5,9 +5,13 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
-const IoTDetails = ({ shipment: { edgeDevices } }) => {
+const IoTDetails = (
+  {
+    // shipment: { edgeDevices }
+  }
+) => {
   return (
     <React.Fragment>
       <Table size="small">
@@ -40,12 +44,12 @@ const IoTDetails = ({ shipment: { edgeDevices } }) => {
               <b>TEMPERATURE </b>(°C)
             </TableCell>
             <TableCell>
-              {edgeDevices.temperature.optValue -
-                edgeDevices.temperature.errorMargin}
+              {/* {edgeDevices.temperature.optValue -
+                edgeDevices.temperature.errorMargin} */}
             </TableCell>
             <TableCell>
-              {edgeDevices.temperature.optValue +
-                edgeDevices.temperature.errorMargin}
+              {/* {edgeDevices.temperature.optValue +
+                edgeDevices.temperature.errorMargin} */}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -53,10 +57,10 @@ const IoTDetails = ({ shipment: { edgeDevices } }) => {
               <b>PRESSURE </b>(Pa)
             </TableCell>
             <TableCell>
-              {edgeDevices.pressure.optValue - edgeDevices.pressure.errorMargin}
+              {/* {edgeDevices.pressure.optValue - edgeDevices.pressure.errorMargin} */}
             </TableCell>
             <TableCell>
-              {edgeDevices.pressure.optValue + edgeDevices.pressure.errorMargin}
+              {/* {edgeDevices.pressure.optValue + edgeDevices.pressure.errorMargin} */}
             </TableCell>
           </TableRow>
           <TableRow>
@@ -64,12 +68,12 @@ const IoTDetails = ({ shipment: { edgeDevices } }) => {
               <b>VIBRATION </b>(Hz)
             </TableCell>
             <TableCell>
-              {edgeDevices.vibration.optValue -
-                edgeDevices.vibration.errorMargin}
+              {/* {edgeDevices.vibration.optValue -
+                edgeDevices.vibration.errorMargin} */}
             </TableCell>
             <TableCell>
-              {edgeDevices.vibration.optValue +
-                edgeDevices.vibration.errorMargin}
+              {/* {edgeDevices.vibration.optValue +
+                edgeDevices.vibration.errorMargin} */}
             </TableCell>
           </TableRow>
         </TableBody>
@@ -78,8 +82,8 @@ const IoTDetails = ({ shipment: { edgeDevices } }) => {
   );
 };
 
-IoTDetails.propTypes = {
-  shipment: PropTypes.object.isRequired
-};
+// IoTDetails.propTypes = {
+//   shipment: PropTypes.object.isRequired
+// };
 
 export default IoTDetails;

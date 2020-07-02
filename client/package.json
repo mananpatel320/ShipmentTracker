@@ -27,6 +27,7 @@
     "redux-devtools": "^3.5.0",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "use-force-update": "^1.0.7",
     "uuid": "^8.1.0"
   },
   "scripts": {
