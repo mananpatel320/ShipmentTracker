@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -9,12 +11,12 @@ import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
 import { createMuiTheme } from '@material-ui/core/styles';
+import DeleteIcon from '@material-ui/icons/Delete';
 import { ThemeProvider } from '@material-ui/styles';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import Button from '@material-ui/core/Button';
-
 import Details from './ConsignmentDetails';
 import IoTDetails from './IoTDetails';
 import ConsTable from './ConsignmentTable';
@@ -22,6 +24,9 @@ import Chart from './Chart';
 import Chart1 from './Chart1';
 import Chart2 from './Chart2';
 import Map from './map';
+import Spinner from '../layout/Spinner';
+import Moment from 'react-moment';
+import { getShipment, deleteShipment } from '../../actions/shipment';
 
 function Copyright() {
   return (
@@ -82,198 +87,216 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function DetailsandTrack() {
+const Tracker = ({
+  getShipment,
+  deleteShipment,
+  shipment: { shipment, loading },
+  match
+}) => {
   const classes = useStyles();
+  useEffect(() => {
+    getShipment(match.params.id);
+  }, [getShipment, match.params.id]);
 
   clsx(classes.paper, classes.fixedHeight);
 
-  return (
+  return loading || shipment === null ? (
+    <Spinner />
+  ) : (
     <div className={classes.root}>
       <CssBaseline />
-
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.button}
-            startIcon={<KeyboardBackspaceIcon />}
-          >
-            Back to Dashboard
-          </Button>
-          <Grid
-            container
-            spacing={3}
-            sdirection="row"
-            justify="space-evenly"
-            alignItems="center"
-          >
-            <Grid item xs={12} md={6}>
-              <Paper className={classes.paper}>
-                <Details />
-              </Paper>
-            </Grid>
-
-            <Grid item xs={12} md={6}>
-              <Paper className={classes.paper}>
-                <Typography
-                  component="h1"
-                  variant="h5"
-                  color="primary"
-                  noWrap
-                  className={classes.title}
-                >
-                  <IconButton color="secondary">
-                    <LocationOnIcon />
-                  </IconButton>
-                  Origin
-                </Typography>
-                <ThemeProvider theme={theme}>
-                  <Typography
-                    component="h6"
-                    variant="h6"
-                    className={classes.title}
-                  >
-                    Happiest Minds Technologies Limited SMILES 1,3rd and 4th
-                    Floor, SJR Equinox, Sy.No.47/8, Doddathogur Village, Begur
-                    Hobli, Electronics City Phase 1, Hosur Road, Bengaluru – 560
-                    100
-                  </Typography>
-                </ThemeProvider>
-                <Typography>
-                  <Typography
-                    color="inherit"
-                    component="p"
-                    style={{ display: 'inline-block' }}
-                  >
-                    Date of Dispatch:
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    component="p"
-                    style={{ display: 'inline-block' }}
-                  >
-                    &nbsp;&nbsp;10 February 2020
-                  </Typography>
-                </Typography>
-              </Paper>
-            </Grid>
-
-            {/* <Grid item xs={0} md={0} lg={2}>
-              <Box
-                component="span"
-                display={{ xs: "none", lg: "block", xl: "none" }}
-              >
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <ArrowRightAltIcon style={{ fontSize: 150 }} />
-              </Box>
-            </Grid> */}
+      <Container maxWidth="lg" className={classes.container}>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          startIcon={<KeyboardBackspaceIcon />}
+          component={Link}
+          to="/dashboard"
+        >
+          Back to Dashboard
+        </Button>
+        <Grid
+          container
+          spacing={3}
+          sdirection="row"
+          justify="space-evenly"
+          alignItems="center"
+        >
+          <Grid item xs={12} md={6}>
+            <Paper className={classes.paper}>
+              <Details shipment={shipment} />
+            </Paper>
           </Grid>
-          <Grid
-            container
-            spacing={3}
-            sdirection="row"
-            justify="space-evenly"
-            alignItems="center"
-          >
-            <Grid item xs={12} md={6}>
-              <Paper className={classes.paper}>
-                <IoTDetails />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <Paper className={classes.paper}>
-                <Typography
-                  component="h1"
-                  variant="h5"
-                  color="primary"
-                  noWrap
-                  className={classes.title}
-                >
-                  <IconButton color="secondary">
-                    <LocationOnIcon />
-                  </IconButton>
-                  Destination
-                </Typography>
+
+          <Grid item xs={12} md={6}>
+            <Paper className={classes.paper}>
+              <Typography
+                component="h1"
+                variant="h5"
+                color="primary"
+                noWrap
+                className={classes.title}
+              >
+                <IconButton color="secondary">
+                  <LocationOnIcon />
+                </IconButton>
+                Origin
+              </Typography>
+              <ThemeProvider theme={theme}>
                 <Typography
                   component="h6"
                   variant="h6"
                   className={classes.title}
                 >
-                  Happiest Minds Technologies Limited Office No. 1616, 16th
-                  Floor Building No. A-1, Sector No.1, Rupa Solitaire MBP
-                  (Millennium Business Park), TTC Industrial Area Navi Mumbai -
-                  400710
+                  {shipment.shipper.address + ', '}{' '}
+                  {shipment.shipper.city + ' -'}
+                  {shipment.shipper.postalCode + '- '}
+                  {shipment.shipper.state} {shipment.shipper.country}
                 </Typography>
-                <Typography>
-                  <Typography
-                    color="inherit"
-                    component="p"
-                    style={{ display: 'inline-block' }}
-                  >
-                    Date of Arrival:
-                  </Typography>
-                  <Typography
-                    color="textSecondary"
-                    component="p"
-                    style={{ display: 'inline-block' }}
-                  >
-                    &nbsp;&nbsp;10 February 2020
-                  </Typography>
+              </ThemeProvider>
+              <Typography>
+                <Typography
+                  color="inherit"
+                  component="p"
+                  style={{ display: 'inline-block' }}
+                >
+                  Date of Dispatch:
                 </Typography>
+                <Typography
+                  color="textSecondary"
+                  component="p"
+                  style={{ display: 'inline-block' }}
+                >
+                  &nbsp;&nbsp;
+                  <Moment format="YYYY/MM/DD">{shipment.departureDate}</Moment>
+                </Typography>
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          spacing={3}
+          sdirection="row"
+          justify="space-evenly"
+          alignItems="center"
+        >
+          <Grid item xs={12} md={6}>
+            <Paper className={classes.paper}>
+              <IoTDetails shipment={shipment} />
+            </Paper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Paper className={classes.paper}>
+              <Typography
+                component="h1"
+                variant="h5"
+                color="primary"
+                noWrap
+                className={classes.title}
+              >
+                <IconButton color="secondary">
+                  <LocationOnIcon />
+                </IconButton>
+                Destination
+              </Typography>
+              <Typography component="h6" variant="h6" className={classes.title}>
+                {shipment.receiver.address + ', '}{' '}
+                {shipment.receiver.city + ' -'}
+                {shipment.receiver.postalCode + '- '}
+                {shipment.receiver.state} {shipment.receiver.country}
+              </Typography>
+              <Typography>
+                <Typography
+                  color="inherit"
+                  component="p"
+                  style={{ display: 'inline-block' }}
+                >
+                  Date of Arrival:
+                </Typography>
+                <Typography
+                  color="textSecondary"
+                  component="p"
+                  style={{ display: 'inline-block' }}
+                >
+                  &nbsp;&nbsp;
+                  <Moment format="YYYY/MM/DD">{shipment.deliveryDate}</Moment>
+                </Typography>
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          spacing={3}
+          sdirection="row"
+          justify="space-between"
+          alignItems="flex-start"
+        >
+          <Grid container spacing={3} item xs={12} md={6}>
+            <Grid item xs={12} md={12}>
+              <Chart />
+            </Grid>
+
+            <Grid item xs={12} md={12}>
+              <Chart1 />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <Chart2 />
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={3} item xs={12} md={6}>
+            <Grid item xs={12} md={12}>
+              <Paper elevation={15}>
+                <Map />
+              </Paper>
+            </Grid>
+            <Grid item md={12}>
+              <Paper className={classes.paper}>
+                <Typography
+                  component="h2"
+                  variant="h4"
+                  color="primary"
+                  gutterBottom
+                >
+                  Legs of the Journey
+                </Typography>
+                <ConsTable />
               </Paper>
             </Grid>
           </Grid>
-
-          <Grid
-            container
-            spacing={3}
-            sdirection="row"
-            justify="space-between"
-            alignItems="flex-start"
-          >
-            <Grid container spacing={3} item xs={12} md={6}>
-              <Grid item xs={12} md={12}>
-                <Chart />
-              </Grid>
-
-              <Grid item xs={12} md={12}>
-                <Chart1 />
-              </Grid>
-              <Grid item xs={12} md={12}>
-                <Chart2 />
-              </Grid>
-            </Grid>
-
-            <Grid container spacing={3} item xs={12} md={6}>
-              <Grid item xs={12} md={12}>
-                <Paper elevation={15}>
-                  <Map />
-                </Paper>
-              </Grid>
-              <Grid item md={12}>
-                <Paper className={classes.paper}>
-                  <Typography
-                    component="h2"
-                    variant="h4"
-                    color="primary"
-                    gutterBottom
-                  >
-                    Legs of the Journey
-                  </Typography>
-                  <ConsTable />
-                </Paper>
-              </Grid>
-            </Grid>
-          </Grid>
-          {/* </Grid>
-          </Grid> */}
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
+        </Grid>
+        <Button
+          variant="contained"
+          color="secondary"
+          className={classes.button}
+          startIcon={<DeleteIcon />}
+          // onClick={() => deleteShipment(shipment._id)}
+          style={{ align: 'centre' }}
+        >
+          DELETE SHIPMENT
+        </Button>
+        <Box pt={4}>
+          <Copyright />
+        </Box>
+      </Container>
     </div>
   );
-}
+};
+
+Tracker.propTypes = {
+  getShipment: PropTypes.func.isRequired,
+  deleteShipment: PropTypes.func.isRequired,
+  shipment: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  shipment: state.shipment
+});
+
+export default connect(mapStateToProps, { getShipment, deleteShipment })(
+  Tracker
+);

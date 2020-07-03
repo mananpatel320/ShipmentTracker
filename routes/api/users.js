@@ -16,7 +16,7 @@ router.post(
   '/',
   [
     check('firstName', 'First Name is required').not().isEmpty(),
-    check('username', 'User name is required').isEmail(),
+    check('username', 'User name is required').not().isEmpty(),
     check('email', 'Please include a valid Email Address').isEmail(),
     check('category', 'Category of user is required').not().isEmpty(),
     check(

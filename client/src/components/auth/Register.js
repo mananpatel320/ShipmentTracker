@@ -174,7 +174,7 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
               <Typography component="h1" variant="h5">
                 Sign Up
               </Typography>
-              <form className={classes.form} noValidate>
+              <form className={classes.form} noValidate onSubmit={onSubmit}>
                 <Grid container spacing={3}>
                   <Grid item xs={12} sm={6}>
                     <TextField
