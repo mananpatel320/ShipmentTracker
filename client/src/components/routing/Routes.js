@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 import Register from '../auth/Register';
 import { Link } from 'react-router-dom';
 import Login from '../auth/Login';
-import Dashboard from '../dashboard/Dashboard';
-import CreateShip from '../dashboard/CreateShip';
+import dashboard from '../dashboard/dashboard';
+import createShip from '../dashboard/createShip';
 import PrivateRoute from './PrivateRoute';
 import Tracker from '../shipmentTrack/Tracker';
 import Profile from '../profile/Profile';
@@ -130,7 +130,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button component={Link} to="/createship">
+        <ListItem button component={Link} to="/createShip">
           <ListItemIcon>
             <AddCircleIcon />
           </ListItemIcon>
@@ -285,8 +285,8 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
           <Switch>
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
-            <PrivateRoute exact path="/dashboard" component={Dashboard} />
-            <PrivateRoute exact path="/createship" component={CreateShip} />
+            <PrivateRoute exact path="/dashboard" component={dashboard} />
+            <PrivateRoute exact path="/createShip" component={createShip} />
             <PrivateRoute exact path="/track/:id" component={Tracker} />
             <PrivateRoute exact path="/profile" component={Profile} />
             <PrivateRoute exact path="/handover" component={Handover} />
