@@ -40,6 +40,8 @@ import Badge from '@material-ui/core/Badge';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Error from '../layout/Error';
+import Landing from '../layout/Landing';
 
 const drawerWidth = 240;
 
@@ -283,6 +285,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
         <section className="container">
           <Alert />
           <Switch>
+            <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/dashboard" component={Dashboard} />
@@ -290,6 +293,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             <PrivateRoute exact path="/track/:id" component={Tracker} />
             <PrivateRoute exact path="/profile" component={Profile} />
             <PrivateRoute exact path="/handover" component={Handover} />
+            <Route component={Error} />
           </Switch>
         </section>
       </main>

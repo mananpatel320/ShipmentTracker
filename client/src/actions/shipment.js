@@ -60,13 +60,16 @@ export const getShipment = (id) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: SHIPMENT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: {
+        msg: err.response ? err.response.statusText : 'error',
+        status: err.response ? err.response.status : '500'
+      }
     });
   }
 };
 
 // Delete shipment
-export const deleteShipment = (id) => async (dispatch) => {
+export const deleteShipment = (id, history) => async (dispatch) => {
   try {
     await api.delete(`/shipment/${id}`);
 
@@ -74,12 +77,14 @@ export const deleteShipment = (id) => async (dispatch) => {
       type: DELETE_SHIPMENT,
       payload: id
     });
-
     dispatch(setAlert('Shipment deleted successfully', 'success'));
   } catch (err) {
     dispatch({
       type: SHIPMENT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: {
+        msg: err.response ? err.response.statusText : 'error',
+        status: err.response ? err.response.status : '500'
+      }
     });
   }
 };
