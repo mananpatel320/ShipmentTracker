@@ -1,48 +1,48 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
-import Button from "@material-ui/core/Button";
+import React from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
 
 const currencies = [
   {
-    value: "0",
-    label: "None",
+    value: '0',
+    label: 'None'
   },
   {
-    value: "1",
-    label: "Consignment Shipper",
+    value: '1',
+    label: 'Consignment Shipper'
   },
   {
-    value: "2",
-    label: "Consignment Receiver",
+    value: '2',
+    label: 'Consignment Receiver'
   },
   {
-    value: "3",
-    label: "Logistic Provider",
+    value: '3',
+    label: 'Logistic Provider'
   },
   {
-    value: "4",
-    label: "Insurance Provider",
+    value: '4',
+    label: 'Insurance Provider'
   },
   {
-    value: "5",
-    label: "Vehicle Operator",
-  },
+    value: '5',
+    label: 'Vehicle Operator'
+  }
 ];
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    "& .MuiTextField-root": {
+    '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      width: "50ch",
-    },
+      width: '50ch'
+    }
   },
   buttons: {
-    display: "flex",
-    justifyContent: "flex-end",
-  },
+    display: 'flex',
+    justifyContent: 'flex-end'
+  }
 }));
 
 export default function Form() {
