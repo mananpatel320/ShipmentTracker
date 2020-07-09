@@ -29,22 +29,25 @@ export const getShipments = () => async (dispatch) => {
   }
 };
 
-//Add new Shipment
-export const createShipment = (formData) => async (dispatch) => {
+// Add Shipment
+
+export const shipment = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/shipment', formData);
 
     dispatch({
       type: ADD_SHIPMENT,
+
       payload: res.data
     });
 
-    dispatch(setAlert('Shipment Created', 'success'));
+    dispatch(setAlert('Added Shipment Successfully', 'success'));
   } catch (err) {
-    dispatch({
-      type: SHIPMENT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
+    const errors = err.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'error')));
+    }
   }
 };
 
