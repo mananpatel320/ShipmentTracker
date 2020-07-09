@@ -45,12 +45,22 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Form() {
+const Form = ({ auth: { firstName, lastName, username, category, email } }) => {
   const classes = useStyles();
-  const [currency, setCurrency] = React.useState(0);
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
-  };
+  var str;
+  if (category == 1) {
+    str = 'Consignment Shipper';
+  } else if (category == 2) {
+    str = 'Consignment Receiver';
+  } else if (category == 2) {
+    str = 'Logistic Provider';
+  } else if (category == 2) {
+    str = 'Insurance Provider';
+  } else if (category == 2) {
+    str = 'Vehicle Operator';
+  } else {
+  }
+
   return (
     <React.Fragment>
       <br />
@@ -64,8 +74,10 @@ export default function Form() {
             fullWidth
             autoComplete="given-name"
             disabled="true"
-            defaultValue="John"
-          />
+            defaultValue={firstName}
+          >
+            {firstName}
+          </TextField>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -76,8 +88,10 @@ export default function Form() {
             fullWidth
             autoComplete="family-name"
             disabled="true"
-            defaultValue="Doe"
-          />
+            defaultValue={lastName}
+          >
+            {lastName}
+          </TextField>
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -87,9 +101,11 @@ export default function Form() {
             label="Username"
             fullWidth
             autoComplete="username"
-            defaultValue="user@1234"
+            defaultValue={username}
             disabled="true"
-          />
+          >
+            {username}
+          </TextField>
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -99,36 +115,29 @@ export default function Form() {
             label="Email Address"
             fullWidth
             autoComplete="email"
-          />
+            defaultValue={email}
+            disabled="true"
+          >
+            {email}
+          </TextField>
         </Grid>
-        <form className={classes.root} noValidate autoComplete="off">
-          <div>
-            <TextField
-              id="standard-select-currency"
-              select
-              label="Select"
-              value={currency}
-              onChange={handleChange}
-              helperText="Please select your role"
-            >
-              {currencies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </div>
-        </form>
-        <Button
-          // variant="contained"
-          // color="primary"
-          fullWidth
-          // onClick={handleNext}
-          className={classes.button}
-        >
-          Save Changes
-        </Button>
+        <Grid item xs={12}>
+          <TextField
+            id="category"
+            required
+            name="category"
+            label="Category"
+            fullWidth
+            autoComplete="category"
+            defaultValue={str}
+            disabled="true"
+          >
+            {category}
+          </TextField>
+        </Grid>
       </Grid>
     </React.Fragment>
   );
-}
+};
+
+export default Form;
