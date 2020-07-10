@@ -9,11 +9,14 @@ const Shipment = require('../../models/Shipment');
 const User = require('../../models/User');
 
 // @route    GET api/shipment/
-// @desc     Get all shipments
+// @desc     Get all shipments created by logged in user
 // @access   Private
 router.get('/', auth, async (req, res) => {
   try {
-    const shipments = await Shipment.find().sort({ date: -1 });
+    const user = await User.findById(req.user.id).select('-password');
+    const shipments = await Shipment.find({ user: user._id }).sort({
+      date: -1
+    });
     res.json(shipments);
   } catch (err) {
     console.error(err.message);

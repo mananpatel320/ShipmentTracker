@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Register from '../auth/Register';
 import { Link } from 'react-router-dom';
 import Login from '../auth/Login';
-import dashboard from '../dashboard/dashboard';
+import dashboard from '../dashboard/Dashboard';
 import createShip from '../dashboard/createShip';
 import PrivateRoute from './PrivateRoute';
 import Tracker from '../shipmentTrack/Tracker';
@@ -40,6 +40,7 @@ import Badge from '@material-ui/core/Badge';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Landing from '../layout/Landing';
 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -137,7 +138,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
+const Routes = (
+  { auth: { user, isAuthenticated, loading }, logout },
+  props
+) => {
   const classes = useStyles();
 
   const [openNotify, setOpenNotify] = React.useState(false);
@@ -198,14 +202,6 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
       </List>
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon>
-            <Badge badgeContent={17} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </ListItemIcon>
-          <ListItemText primary="Notifications" />
-        </ListItem>
         <ListItem button component={Link} to="/profile">
           <ListItemIcon>
             <AccountCircleIcon />
@@ -272,24 +268,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             <Fragment>
               <div className={classes.grow} />
               <div className={classes.sectionDesktop}>
-                {/* <IconButton
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                >
-                  <Badge badgeContent={13} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton> */}
-                {/* <div className={classes.rootnotify}> */}
                 <div>
-                  {/* <Button
-                      ref={anchorRef}
-                      aria-controls={openNotify ? 'menu-list-grow' : undefined}
-                      aria-haspopup="true"
-                      onClick={handleToggle}
-                    >
-                      Notifications
-                    </Button> */}
                   <IconButton
                     aria-label="show 17 new notifications"
                     color="inherit"
@@ -302,17 +281,6 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
                       <NotificationsIcon />
                     </Badge>
                   </IconButton>
-                  {/* <Button
-                      variant="contained"
-                      color="primary"
-                      className={classes.button}
-                      startIcon={<NotificationsIcon />}
-                      ref={anchorRef}
-                      aria-controls={openNotify ? 'menu-list-grow' : undefined}
-                      aria-haspopup="true"
-                      onClick={handleToggle}
-                      style={{ margin: '0' }}
-                    ></Button> */}
                   <Popper
                     open={openNotify}
                     anchorEl={anchorRef.current}
@@ -440,6 +408,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
                   to="/profile"
                 >
                   <AccountCircle />
+                  {user && user.firstName}
                 </IconButton>
                 <IconButton
                   edge="end"
@@ -447,12 +416,8 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
                   color="inherit"
                   onClick={logout}
                 >
+                  {' '}
                   <ExitToAppIcon />
-                </IconButton>
-              </div>
-              <div className={classes.sectionMobile}>
-                <IconButton aria-label="show more" color="inherit">
-                  <MoreIcon />
                 </IconButton>
               </div>
             </Fragment>
@@ -469,6 +434,16 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
         }}
       >
         <div className={classes.drawerHeader}>
+          {!loading && isAuthenticated ? (
+            <Typography
+              gutterBottom="true"
+              align="center"
+              variant="h6"
+              color="primary"
+            >
+              {'Welcome' + '  ' + (user && user.username) + ' ! '}
+            </Typography>
+          ) : null}
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
@@ -477,6 +452,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             )}
           </IconButton>
         </div>
+
         <Divider />
         {!loading && isAuthenticated ? authLinks : guestLinks}
       </Drawer>
@@ -489,6 +465,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
         <section className="container">
           <Alert />
           <Switch>
+            <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/dashboard" component={dashboard} />

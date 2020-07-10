@@ -132,7 +132,7 @@ const Login = ({ login, isAuthenticated }) => {
               >
                 Sign In
               </Button>
-              <Grid container>  
+              <Grid container>
                 <Grid item>
                   Don't have an account?
                   <Link to="/Register" variant="body2">

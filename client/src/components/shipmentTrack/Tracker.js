@@ -91,7 +91,8 @@ const Tracker = ({
   getShipment,
   deleteShipment,
   shipment: { shipment, loading },
-  match
+  match,
+  history
 }) => {
   const classes = useStyles();
   useEffect(() => {
@@ -274,10 +275,9 @@ const Tracker = ({
           color="secondary"
           className={classes.button}
           startIcon={<DeleteIcon />}
-          // onClick={() => deleteShipment(shipment._id)}
-          style={{ align: 'centre' }}
+          onClick={() => deleteShipment(shipment._id)}
         >
-          DELETE SHIPMENT
+          {shipment._id}
         </Button>
         <Box pt={4}>
           <Copyright />
