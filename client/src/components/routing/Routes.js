@@ -270,14 +270,14 @@ const Routes = (
               <div className={classes.sectionDesktop}>
                 <div>
                   <IconButton
-                    aria-label="show 17 new notifications"
+                    aria-label="show 2 new notifications"
                     color="inherit"
                     ref={anchorRef}
                     aria-controls={openNotify ? 'menu-list-grow' : undefined}
                     aria-haspopup="true"
                     onClick={handleToggle}
                   >
-                    <Badge badgeContent={3} color="secondary">
+                    <Badge badgeContent={2} color="secondary">
                       <NotificationsIcon />{' '}
                     </Badge>
                   </IconButton>
@@ -316,7 +316,7 @@ const Routes = (
                                 />
                               </ListItemAvatar>
                               <ListItemText
-                                primary="Receive Consignment"
+                                primary="Confirmed Shipment"
                                 secondary={
                                   <React.Fragment>
                                     <Typography
@@ -325,10 +325,10 @@ const Routes = (
                                       className={classes.inline}
                                       color="textPrimary"
                                     >
-                                      Shipper A-
+                                      Confirmed Shipment
                                     </Typography>
                                     {
-                                      'You have received a request to receive Consignment'
+                                      'You have successfully placed the order and your Consignment Number is 123456.'
                                     }
                                   </React.Fragment>
                                 }
@@ -346,7 +346,7 @@ const Routes = (
                                 />
                               </ListItemAvatar>
                               <ListItemText
-                                primary="Handover Request"
+                                primary="Track Consignment"
                                 secondary={
                                   <React.Fragment>
                                     <Typography
@@ -355,45 +355,45 @@ const Routes = (
                                       className={classes.inline}
                                       color="textPrimary"
                                     >
-                                      Vehicle Operator C-
+                                      Track Consignment
                                     </Typography>
                                     {
-                                      'You have received a request to receive Consignment'
+                                      'Consignment Number: 123456 is being shipped. It will reach the destination on 16th July 2020.'
                                     }
                                   </React.Fragment>
                                 }
                               />
                             </ListItem>
-                            <Divider variant="inset" component="li" />
-                            <ListItem
-                              alignItems="flex-start"
-                              onClick={handleClose}
-                            >
-                              <ListItemAvatar>
-                                <Avatar
-                                  alt="Cindy Baker"
-                                  src="/static/images/avatar/3.jpg"
-                                />
-                              </ListItemAvatar>
-                              <ListItemText
-                                primary="Handover Request"
-                                secondary={
-                                  <React.Fragment>
-                                    <Typography
-                                      component="span"
-                                      variant="body2"
-                                      className={classes.inline}
-                                      color="textPrimary"
-                                    >
-                                      Logistic Provider B-
-                                    </Typography>
-                                    {
-                                      'You have received a request to receive Consignment'
-                                    }
-                                  </React.Fragment>
-                                }
-                              />
-                            </ListItem>
+//                             <Divider variant="inset" component="li" />
+//                             <ListItem
+//                               alignItems="flex-start"
+//                               onClick={handleClose}
+//                             >
+//                               <ListItemAvatar>
+//                                 <Avatar
+//                                   alt="Cindy Baker"
+//                                   src="/static/images/avatar/3.jpg"
+//                                 />
+//                               </ListItemAvatar>
+//                               <ListItemText
+//                                 primary="Handover Request"
+//                                 secondary={
+//                                   <React.Fragment>
+//                                     <Typography
+//                                       component="span"
+//                                       variant="body2"
+//                                       className={classes.inline}
+//                                       color="textPrimary"
+//                                     >
+//                                       Logistic Provider B-
+//                                     </Typography>
+//                                     {
+//                                       'You have received a request to receive Consignment'
+//                                     }
+//                                   </React.Fragment>
+//                                 }
+//                               />
+//                             </ListItem>
                           </List>
                         </ClickAwayListener>
                       </Grow>
