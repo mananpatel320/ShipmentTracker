@@ -23,12 +23,9 @@ import { getShipments, deleteShipment } from '../../actions/shipment';
 import Spinner from '../layout/Spinner';
 import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import Button from '@material-ui/core/Button';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
-import useForceUpdate from 'use-force-update';
 
 const FilterIcon = ({ type, ...restProps }) => {
   if (type === 'month') return <DateRange {...restProps} />;
@@ -133,15 +130,6 @@ const Dashboard = ({
                     >
                       {shipment.number}
                     </Button>
-                    <IconButton
-                      aria-label="delete"
-                      color="secondary"
-                      onClick={() =>
-                        deleteShipment(shipment._id) && routeChange
-                      }
-                    >
-                      <DeleteIcon />
-                    </IconButton>
                   </Fragment>
                 ),
                 consignmentNumber: shipment.number,

@@ -22,16 +22,45 @@ import Grid from '@material-ui/core/Grid';
 const generateData = (n) => {
   const ret = [];
   let y = 0;
-  let ub = 10;
-  let lb = -10;
+  let ub = 45;
+  let lb = 35;
   const dt = new Date();
-  for (let i = 0; i < n; i += 1) {
+  // for (let i = 0; i < n; i += 1) {
+
+  //   dt.setHours(dt.getHours() + 1);
+  //   y += Math.round(Math.random() * 10 - 5);
+  //   ret.push({ x: new Date(dt), y, ub, lb });
+  // }
+  for (let i = 0; i < 50; i++) {
+    y = 36;
     dt.setHours(dt.getHours() + 1);
-    y += Math.round(Math.random() * 10 - 5);
+    ret.push({ x: new Date(dt), y, ub, lb });
+  }
+  var k = 0.18;
+  for (let i = 0; i < 50; i++) {
+    y = y + k;
+    dt.setHours(dt.getHours() + 1);
+    ret.push({ x: new Date(dt), y, ub, lb });
+  }
+  k = 0.1;
+  for (let i = 0; i < 50; i++) {
+    y = y - k;
+    dt.setHours(dt.getHours() + 1);
+    ret.push({ x: new Date(dt), y, ub, lb });
+  }
+  for (let i = 0; i < 50; i++) {
+    dt.setHours(dt.getHours() + 1);
+    ret.push({ x: new Date(dt), y, ub, lb });
+  }
+  k = 0.04;
+  for (let i = 0; i < 50; i++) {
+    y = y - k;
+    dt.setHours(dt.getHours() + 1);
     ret.push({ x: new Date(dt), y, ub, lb });
   }
   return ret;
 };
+
 const data = generateData(250);
 
 const getMode = (zoom, pan) => {
