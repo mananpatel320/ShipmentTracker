@@ -23,7 +23,7 @@ import { getShipments, deleteShipment } from '../../actions/shipment';
 import Spinner from '../layout/Spinner';
 import TrackChangesIcon from '@material-ui/icons/TrackChanges';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import IconButton from '@material-ui/core/IconButton';
@@ -72,11 +72,9 @@ const Dashboard = ({
     { name: 'dateCreated', title: 'Date Created' }
   ]);
 
-  const forceUpdate = useForceUpdate();
-
-  const handleClick = () => {
-    alert('I will re-render now');
-    forceUpdate();
+  const routeChange = () => {
+    let path = '/createship';
+    this.props.history.push(path);
   };
 
   const classes = useStyles();
@@ -139,7 +137,7 @@ const Dashboard = ({
                       aria-label="delete"
                       color="secondary"
                       onClick={() =>
-                        deleteShipment(shipment._id) && handleClick()
+                        deleteShipment(shipment._id) && routeChange
                       }
                     >
                       <DeleteIcon />

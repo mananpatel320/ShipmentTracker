@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Register from '../auth/Register';
 import { Link } from 'react-router-dom';
 import Login from '../auth/Login';
-import dashboard from '../dashboard/dashboard';
+import dashboard from '../dashboard/Dashboard';
 import createShip from '../dashboard/createShip';
 import PrivateRoute from './PrivateRoute';
 import Tracker from '../shipmentTrack/Tracker';
@@ -40,6 +40,7 @@ import Badge from '@material-ui/core/Badge';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Landing from '../layout/Landing';
 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -495,6 +496,7 @@ const Routes = (
         <section className="container">
           <Alert />
           <Switch>
+            <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
             <PrivateRoute exact path="/dashboard" component={dashboard} />

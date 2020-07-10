@@ -7,7 +7,7 @@
     "start": "node server",
     "server": "nodemon server",
     "client": "npm start --prefix client",
-    "deve": "concurrently \"npm run server\" \"npm run client\"",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "Manan Patel",
@@ -31,6 +31,7 @@
     "mongoose": "^5.9.5",
     "normalize-url": "^5.0.0",
     "react-leaflet": "^2.7.0",
+    "react-router": "^5.2.0",
     "typeface-roboto": "0.0.75"
   },
   "devDependencies": {
