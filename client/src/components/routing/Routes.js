@@ -364,7 +364,6 @@ const Routes = (
                                 }
                               />
                             </ListItem>
-//                             <Divider variant="inset" component="li" />
 //                             <ListItem
 //                               alignItems="flex-start"
 //                               onClick={handleClose}
