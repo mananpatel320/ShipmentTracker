@@ -138,7 +138,10 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
+const Routes = (
+  { auth: { user, isAuthenticated, loading }, logout },
+  props
+) => {
   const classes = useStyles();
 
   const [openNotify, setOpenNotify] = React.useState(false);
@@ -273,6 +276,9 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             <Fragment>
               <div className={classes.grow} />
               <div className={classes.sectionDesktop}>
+                <Typography gutterBottom="true" align="center" variant="h6">
+                  {'Welcome' + '  ' + user.firstName + ' ! '}
+                </Typography>
                 {/* <IconButton
                   aria-label="show 17 new notifications"
                   color="inherit"

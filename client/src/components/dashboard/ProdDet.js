@@ -58,6 +58,12 @@ export default function ProdDet() {
   const [age, setAge] = React.useState('');
   const [age1, setAge1] = React.useState('');
   const [age2, setAge2] = React.useState('');
+  const [selectedDatePick, setSelectedDatePick] = React.useState(
+    new Date('2020-06-17T21:11:54')
+  );
+  const [selectedDateDrop, setSelectedDateDrop] = React.useState(
+    new Date('2020-06-17T21:11:54')
+  );
 
   const onChange = (event) => setValue(event.target.value);
   const onChange1 = (event) => setValue1(event.target.value);
@@ -80,18 +86,10 @@ export default function ProdDet() {
     onChange4(event);
   };
 
-  const [selectedDatePick, setSelectedDatePick] = React.useState(
-    new Date('2020-06-17T21:11:54')
-  );
-
   const handleDateChangePick = (date) => {
     setSelectedDatePick(date);
     onChange5(date);
   };
-
-  const [selectedDateDrop, setSelectedDateDrop] = React.useState(
-    new Date('2020-06-17T21:11:54')
-  );
 
   const handleDateChangeDrop = (date) => {
     setSelectedDateDrop(date);
@@ -240,7 +238,8 @@ export default function ProdDet() {
             <KeyboardDatePicker
               disableToolbar
               variant="inline"
-              format="dd/MM/yyyy"
+              format="dd/mm/yyyy"
+              autoComplete="cc-exp"
               margin="normal"
               id="date-picker-inline"
               label="Date of Pickup"
@@ -256,7 +255,8 @@ export default function ProdDet() {
             <KeyboardDatePicker
               disableToolbar
               variant="inline"
-              format="dd/MM/yyyy"
+              format="dd/mm/yyyy"
+              autoComplete="cc-exp"
               margin="normal"
               id="date-picker-inline"
               label="Promised Date of Delivery"

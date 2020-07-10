@@ -163,22 +163,22 @@ const CreateShip = ({ setAlert, shipment }) => {
         departureDate: '2020-06-24',
       },
     ];*/
-    const min = 1;
+    const min = 100000;
     const max = 1000000;
     const rand = min + Math.random() * (max - min);
     const number = Math.floor(rand);
     const quantity = localStorage.getItem('quantity');
     var string = localStorage.getItem('fragile');
-    const fragile = string === 2 ? false : true;
+    const fragile = string == 2 ? false : true;
     var num = localStorage.getItem('insurance_provider');
     var string1;
-    if (num === 1) string1 = 'Company A';
-    else if (num === 2) string1 = 'Company B';
+    if (num == 1) string1 = 'Company A';
+    else if (num == 2) string1 = 'Company B';
     else string1 = 'Company C';
     const insuranceProvider = string1;
     var string2;
-    if (num === 1) string2 = 'Company A';
-    else if (num === 2) string2 = 'Company B';
+    if (num == 1) string2 = 'Company A';
+    else if (num == 2) string2 = 'Company B';
     else string2 = 'Company C';
     const logisticProvider = string2;
     const departureDate = localStorage.getItem('pickup');
