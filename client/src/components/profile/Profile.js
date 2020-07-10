@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Form from './Form';
-import EditProfile from './EditProfile';
+import Spinner from '../layout/Spinner';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { loadUser } from '../../actions/auth';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -75,32 +75,15 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const steps = ['Manage Profile', 'Update Password'];
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return <Form />;
-    case 1:
-      return <EditProfile />;
-    default:
-      throw new Error('Unknown step');
-  }
-}
-
-export default function Profile() {
+const Profile = ({ loadUser, auth: { user, loading, isAuthenticated } }) => {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
-
-  const handleNext = () => {
-    setActiveStep(activeStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep(activeStep - 1);
-  };
-
-  return (
+  useEffect(() => {
+    loadUser();
+  }, [loadUser]);
+  //const [activeStep, setActiveStep] = React.useState(0);
+  return loading || user === null ? (
+    <Spinner />
+  ) : (
     <React.Fragment>
       <CssBaseline />
       <main className={classes.layout}>
@@ -113,58 +96,28 @@ export default function Profile() {
             />
           </Typography>
           <Typography component="h1" variant="h5" align="center">
-            Manage Profile
+            Profile
           </Typography>
           <React.Fragment>
-            {activeStep === steps.length ? (
-              <React.Fragment>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <Typography
-                      padding="5%"
-                      marginTop="2%"
-                      color="primary"
-                      variant="subtitle1"
-                      gutterBottom
-                    >
-                      <br />
-                      Password Successfully Updated
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </React.Fragment>
-            ) : (
-              <React.Fragment>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button
-                      onClick={handleBack}
-                      className={classes.button}
-                      fullWidth
-                    >
-                      Back
-                    </Button>
-                  )}
-
-                  <Button
-                    // variant="contained"
-                    // color="primary"
-                    fullWidth
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1
-                      ? 'Confirm'
-                      : 'Update Password'}
-                  </Button>
-                </div>
-              </React.Fragment>
-            )}
+            <React.Fragment>
+              <Form auth={user} />
+            </React.Fragment>
           </React.Fragment>
         </Paper>
         <Copyright />
       </main>
     </React.Fragment>
   );
-}
+};
+Profile.propTypes = {
+  loadUser: PropTypes.func.isRequired,
+  //deleteShipment: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool
+};
+
+const mapStateToProps = (state) => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { loadUser })(Profile);
