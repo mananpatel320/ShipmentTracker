@@ -364,36 +364,6 @@ const Routes = (
                                 }
                               />
                             </ListItem>
-//                             <Divider variant="inset" component="li" />
-//                             <ListItem
-//                               alignItems="flex-start"
-//                               onClick={handleClose}
-//                             >
-//                               <ListItemAvatar>
-//                                 <Avatar
-//                                   alt="Cindy Baker"
-//                                   src="/static/images/avatar/3.jpg"
-//                                 />
-//                               </ListItemAvatar>
-//                               <ListItemText
-//                                 primary="Handover Request"
-//                                 secondary={
-//                                   <React.Fragment>
-//                                     <Typography
-//                                       component="span"
-//                                       variant="body2"
-//                                       className={classes.inline}
-//                                       color="textPrimary"
-//                                     >
-//                                       Logistic Provider B-
-//                                     </Typography>
-//                                     {
-//                                       'You have received a request to receive Consignment'
-//                                     }
-//                                   </React.Fragment>
-//                                 }
-//                               />
-//                             </ListItem>
                           </List>
                         </ClickAwayListener>
                       </Grow>
