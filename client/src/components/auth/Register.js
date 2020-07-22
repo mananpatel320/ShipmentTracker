@@ -325,14 +325,14 @@ const Register = ({ setAlert, register, isAuthenticated }) => {
                   >
                     Sign Up
                   </Button>
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    fullWidth
-                    style={{ marginTop: '10px' }}
-                  >
-                    Reset
-                  </Button>
+                  {/* //                   <Button */}
+                  {/* //                     variant="contained"
+//                     color="secondary"
+//                     fullWidth
+//                     style={{ marginTop: '10px' }}
+//                   >
+//                     Reset
+//                   </Button> */}
                   <Grid container>
                     <Grid item xs></Grid>
                     <Grid item>

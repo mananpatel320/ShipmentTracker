@@ -58,12 +58,8 @@ export default function ProdDet() {
   const [age, setAge] = React.useState('');
   const [age1, setAge1] = React.useState('');
   const [age2, setAge2] = React.useState('');
-  const [selectedDatePick, setSelectedDatePick] = React.useState(
-    new Date('2020-06-17T21:11:54')
-  );
-  const [selectedDateDrop, setSelectedDateDrop] = React.useState(
-    new Date('2020-06-17T21:11:54')
-  );
+  const [selectedDatePick, setSelectedDatePick] = React.useState(new Date());
+  const [selectedDateDrop, setSelectedDateDrop] = React.useState(new Date());
 
   const onChange = (event) => setValue(event.target.value);
   const onChange1 = (event) => setValue1(event.target.value);

@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Register from '../auth/Register';
 import { Link } from 'react-router-dom';
 import Login from '../auth/Login';
-import dashboard from '../dashboard/Dashboard';
+import dashboard from '../dashboard/dashboard';
 import createShip from '../dashboard/createShip';
 import PrivateRoute from './PrivateRoute';
 import Tracker from '../shipmentTrack/Tracker';
@@ -202,14 +202,6 @@ const Routes = (
       </List>
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon>
-            <Badge badgeContent={17} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </ListItemIcon>
-          <ListItemText primary="Notifications" />
-        </ListItem>
         <ListItem button component={Link} to="/profile">
           <ListItemIcon>
             <AccountCircleIcon />
@@ -276,27 +268,7 @@ const Routes = (
             <Fragment>
               <div className={classes.grow} />
               <div className={classes.sectionDesktop}>
-                <Typography gutterBottom="true" align="center" variant="h6">
-                  {'Welcome' + '  ' + user.firstName + ' ! '}
-                </Typography>
-                {/* <IconButton
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                >
-                  <Badge badgeContent={13} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton> */}
-                {/* <div className={classes.rootnotify}> */}
                 <div>
-                  {/* <Button
-                      ref={anchorRef}
-                      aria-controls={openNotify ? 'menu-list-grow' : undefined}
-                      aria-haspopup="true"
-                      onClick={handleToggle}
-                    >
-                      Notifications
-                    </Button> */}
                   <IconButton
                     aria-label="show 17 new notifications"
                     color="inherit"
@@ -306,20 +278,9 @@ const Routes = (
                     onClick={handleToggle}
                   >
                     <Badge badgeContent={3} color="secondary">
-                      <NotificationsIcon />
+                      <NotificationsIcon />{' '}
                     </Badge>
                   </IconButton>
-                  {/* <Button
-                      variant="contained"
-                      color="primary"
-                      className={classes.button}
-                      startIcon={<NotificationsIcon />}
-                      ref={anchorRef}
-                      aria-controls={openNotify ? 'menu-list-grow' : undefined}
-                      aria-haspopup="true"
-                      onClick={handleToggle}
-                      style={{ margin: '0' }}
-                    ></Button> */}
                   <Popper
                     open={openNotify}
                     anchorEl={anchorRef.current}
@@ -447,6 +408,7 @@ const Routes = (
                   to="/profile"
                 >
                   <AccountCircle />
+                  {user && user.firstName}
                 </IconButton>
                 <IconButton
                   edge="end"
@@ -454,12 +416,8 @@ const Routes = (
                   color="inherit"
                   onClick={logout}
                 >
+                  {' '}
                   <ExitToAppIcon />
-                </IconButton>
-              </div>
-              <div className={classes.sectionMobile}>
-                <IconButton aria-label="show more" color="inherit">
-                  <MoreIcon />
                 </IconButton>
               </div>
             </Fragment>
@@ -476,6 +434,16 @@ const Routes = (
         }}
       >
         <div className={classes.drawerHeader}>
+          {!loading && isAuthenticated ? (
+            <Typography
+              gutterBottom="true"
+              align="center"
+              variant="h6"
+              color="primary"
+            >
+              {'Welcome' + '  ' + (user && user.username) + ' ! '}
+            </Typography>
+          ) : null}
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
@@ -484,6 +452,7 @@ const Routes = (
             )}
           </IconButton>
         </div>
+
         <Divider />
         {!loading && isAuthenticated ? authLinks : guestLinks}
       </Drawer>

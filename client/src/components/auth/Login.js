@@ -123,10 +123,6 @@ const Login = ({ login, isAuthenticated }) => {
                 onChange={onChange}
                 autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
               <Button
                 type="submit"
                 fullWidth
@@ -137,11 +133,6 @@ const Login = ({ login, isAuthenticated }) => {
                 Sign In
               </Button>
               <Grid container>
-                <Grid item xs>
-                  <Link href="#" variant="body2">
-                    Forgot password?
-                  </Link>
-                </Grid>
                 <Grid item>
                   Don't have an account?
                   <Link to="/Register" variant="body2">

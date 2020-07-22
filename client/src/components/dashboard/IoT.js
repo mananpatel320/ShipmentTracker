@@ -207,19 +207,3 @@ export default function IoT() {
     </React.Fragment>
   );
 }
-
-/* <FormControl>
-            <InputLabel id="demo-simple-select-label">
-              IoT Device Type
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={iot}
-              onChange={handleChange}
-              style={{ width: "180px" }}
-            >
-              <MenuItem value={1}>Type 1</MenuItem>
-              <MenuItem value={2}>Type 2</MenuItem>
-            </Select>
-          </FormControl> */
