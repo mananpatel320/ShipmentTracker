@@ -26,7 +26,7 @@ class MapView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentLocation: { lat: 52.52437, lng: 13.41053 },
+      currentLocation: { lat: mdata[0].from_lat, lng: mdata[0].from_long },
       zoom: 12,
       data: mdata
     };
@@ -41,9 +41,19 @@ class MapView extends Component {
 
     const from_long = this.state.data.map((start) => start.from_long);
     const to_long = this.state.data.map((to) => to.to_long);
+    // var sarr = [qmdata.length][2];
+    // for (var i = 0; i < qmdata.length; i++) {
+    //   console.log((sarr[i] = [qmdata[i].lat, qmdata[i].long]));
+    // }
+    const getLatLngBounds = () => {
+      return [
+        [qmdata[0].lat, qmdata[0].long],
+        [qmdata[qmdata.length - 1].lat, qmdata[qmdata.length - 1].long]
+      ];
+    };
 
     return (
-      <Map center={currentLocation} zoom={zoom}>
+      <Map zoom={zoom} bounds={getLatLngBounds()}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
