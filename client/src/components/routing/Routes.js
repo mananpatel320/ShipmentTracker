@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Register from '../auth/Register';
 import { Link } from 'react-router-dom';
 import Login from '../auth/Login';
-import dashboard from '../dashboard/dashboard';
+import dashboard from '../dashboard/Dashboard';
 import createShip from '../dashboard/createShip';
 import PrivateRoute from './PrivateRoute';
 import Tracker from '../shipmentTrack/Tracker';

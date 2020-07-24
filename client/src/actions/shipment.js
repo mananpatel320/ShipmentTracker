@@ -30,7 +30,6 @@ export const getShipments = () => async (dispatch) => {
 };
 
 // Add Shipment
-
 export const shipment = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/shipment', formData);

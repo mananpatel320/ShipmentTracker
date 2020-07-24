@@ -59,8 +59,6 @@ function Row(props) {
         <TableCell align="center">{row.dest}</TableCell>
         <TableCell align="center">{row.vehop}</TableCell>
         <TableCell align="center">{row.status}</TableCell>
-        {/* <TableCell align="right">{row</TableCell>
-        <TableCell align="right">{row.</TableCell> */}
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -75,7 +73,6 @@ function Row(props) {
                     <TableCell>Date</TableCell>
                     <TableCell align="center">Time</TableCell>
                     <TableCell align="center">Activity</TableCell>
-                    {/* <TableCell align="right">Tot ($)</TableCell> */}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -88,10 +85,6 @@ function Row(props) {
                       <TableCell align="center">
                         {historyRow.Activity}
                       </TableCell>
-                      {/* <TableCell align="right">
-                        {Math.round(historyRow.Activity * row.price * 100) /
-                          100}
-                      </TableCell> */}
                     </TableRow>
                   ))}
                 </TableBody>
@@ -138,8 +131,6 @@ export default function CollapsibleTable() {
             <TableCell align="center">Destination</TableCell>
             <TableCell align="center">Vehicle Operator</TableCell>
             <TableCell align="center">Status</TableCell>
-            {/* <TableCell align="right"nbsp;(g)</TableCell>
-            <TableCell align="right">nbsp;(g)</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
