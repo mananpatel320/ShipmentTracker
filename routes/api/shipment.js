@@ -3,6 +3,9 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 const checkObjectId = require('../../middleware/checkObjectId');
+const AWS = require('aws-sdk');
+const fs = require('fs');
+const readline = require('readline');
 
 //Shipment model
 const Shipment = require('../../models/Shipment');
@@ -86,6 +89,35 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
   } catch (err) {
     console.error(err.message);
 
+    res.status(500).send('500 : Server Error');
+  }
+});
+
+// @route   GET api/shipment/iotdata/:id
+// @desc    Get iot data of the shipment from s3 bucket
+// @access  Private
+router.get('/iotdata/:id', [auth, checkObjectId('id')], async (req, res) => {
+  try {
+    AWS.config.setPromisesDependency();
+    AWS.config.update({
+      accessKeyId: 'AKIAJUCJ5FWWYGXJNXRA',
+      secretAccessKey: '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',
+      region: 'us-west-2'
+    });
+    var s3 = new AWS.S3();
+    var params = { Bucket: 'shipment-tracker', Key: 'mapdata.json' };
+    new AWS.S3().getObject(params, function (err, json_data) {
+      if (!err) {
+        var json = JSON.parse(new Buffer.from(json_data.Body).toString('utf8'));
+
+        res.json(json);
+      }
+    });
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: '404 : Shipment not found' });
+    }
     res.status(500).send('500 : Server Error');
   }
 });
