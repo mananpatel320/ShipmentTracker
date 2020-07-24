@@ -22,7 +22,7 @@ import ConsTable from './ConsignmentTable';
 import Chart from './Chart';
 import Chart1 from './Chart1';
 import Chart2 from './Chart2';
-import Map from './map';
+import Map from './MapView';
 import Spinner from '../layout/Spinner';
 import Moment from 'react-moment';
 import { getShipment } from '../../actions/shipment';
