@@ -100,8 +100,8 @@ router.get('/iotdata/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     AWS.config.setPromisesDependency();
     AWS.config.update({
-      accessKeyId: 'AKIAJLGDXXJS2FXSVBZQ',
-      secretAccessKey: 'NuPU8GBY8vlpAJhnqLBFxpdZAL+n8rrwR/8/nm/Z'
+      accessKeyId: '<paste_your_AWSAccessKeyId>',
+      secretAccessKey: '<paste_yout_AWSSecretKey>'
     });
     var params = { Bucket: 'shipment-tracker', Key: 'mapdata.json' };
     new AWS.S3().getObject(params, function (err, json_data) {
@@ -126,8 +126,8 @@ router.get('/sensordata/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     AWS.config.setPromisesDependency();
     AWS.config.update({
-      accessKeyId: 'AKIAJLGDXXJS2FXSVBZQ',
-      secretAccessKey: 'NuPU8GBY8vlpAJhnqLBFxpdZAL+n8rrwR/8/nm/Z'
+      accessKeyId: '<paste_your_AWSAccessKeyId>',
+      secretAccessKey: '<paste_yout_AWSSecretKey>'
     });
     var params = { Bucket: 'shipment-tracker', Key: 'chdata.json' };
     new AWS.S3().getObject(params, function (err, json_data) {
