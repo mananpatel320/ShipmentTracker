@@ -4,14 +4,13 @@ import 'leaflet/dist/leaflet.css';
 import data from './mapdata.json';
 import Markers from './VenueMarkers';
 const qmdata = [];
-{
-  data.map((index, arr) => {
-    return qmdata.push({
-      lat: arr[index].geometry[0],
-      long: arr[index].geometry[1]
-    });
+data.map((pointDetail, index, arr) => {
+  return qmdata.push({
+    lat: arr[index].geometry[0],
+    long: arr[index].geometry[1]
   });
-}
+});
+
 const mdata = [];
 for (var i = 0; i < qmdata.length - 1; i++) {
   mdata.push({

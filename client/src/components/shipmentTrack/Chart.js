@@ -18,17 +18,14 @@ import Grid from '@material-ui/core/Grid';
 import PostData from './chdata.json';
 
 const data = [];
-
-{
-  PostData.map((postDetail, index) => {
-    return data.push({
-      lb: postDetail.lb,
-      ub: postDetail.ub,
-      x: new Date(postDetail.x),
-      y: postDetail.y
-    });
+PostData.map((postDetail, index) => {
+  return data.push({
+    lb: postDetail.lb,
+    ub: postDetail.ub,
+    x: new Date(postDetail.x),
+    y: postDetail.y
   });
-}
+});
 
 const chartRootStyle = { marginRight: '20px' };
 
