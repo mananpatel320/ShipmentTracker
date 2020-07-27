@@ -39,6 +39,9 @@ npm run dev
 ### Author
 
 Manan Patel
+Rupsa Dhar
+Yash Raj Singh
+Avisha Gupta
 
 ### Version
 
