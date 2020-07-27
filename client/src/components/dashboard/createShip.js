@@ -38,6 +38,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../actions/alert';
 
 //console.log(submitDisabled);
+var number;
 const useStyles = makeStyles((theme) => ({
   title: {
     fontSize: 20
@@ -166,7 +167,7 @@ const CreateShip = ({ setAlert, shipment }) => {
     const min = 100000;
     const max = 1000000;
     const rand = min + Math.random() * (max - min);
-    const number = Math.floor(rand);
+    number = Math.floor(rand);
     const quantity = localStorage.getItem('quantity');
     var string = localStorage.getItem('fragile');
     const fragile = string == 2 ? false : true;
@@ -307,8 +308,8 @@ const CreateShip = ({ setAlert, shipment }) => {
       }
     } else if (activeStep === 4) {
       onSubmit(event);
-      localStorage.clear();
       setActiveStep(activeStep + 1);
+      localStorage.clear();
     } else {
     }
     //if (activeStep === 1) {
@@ -361,7 +362,7 @@ const CreateShip = ({ setAlert, shipment }) => {
                   </Typography>
 
                   <Typography variant="subtitle1">
-                    Your order number is #2001539. We have emailed your order
+                    Your order number is #{number}. We have emailed your order
                     confirmation, and will send you an update when your order
                     has shipped.
                   </Typography>
