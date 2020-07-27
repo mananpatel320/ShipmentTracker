@@ -69,11 +69,6 @@ const Dashboard = ({
     { name: 'dateCreated', title: 'Date Created' }
   ]);
 
-  const routeChange = () => {
-    let path = '/createship';
-    this.props.history.push(path);
-  };
-
   const classes = useStyles();
 
   const [dateColumns] = useState(['dateCreated']);

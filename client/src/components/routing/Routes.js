@@ -39,7 +39,6 @@ import Alert from '../layout/Alert';
 import Badge from '@material-ui/core/Badge';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
 import Landing from '../layout/Landing';
 
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -47,7 +46,6 @@ import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
 const drawerWidth = 240;

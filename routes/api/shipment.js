@@ -100,16 +100,39 @@ router.get('/iotdata/:id', [auth, checkObjectId('id')], async (req, res) => {
   try {
     AWS.config.setPromisesDependency();
     AWS.config.update({
-      accessKeyId: 'AKIAJUCJ5FWWYGXJNXRA',
-      secretAccessKey: '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',
-      region: 'us-west-2'
+      accessKeyId: 'AKIAJLGDXXJS2FXSVBZQ',
+      secretAccessKey: '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'
     });
-    var s3 = new AWS.S3();
     var params = { Bucket: 'shipment-tracker', Key: 'mapdata.json' };
     new AWS.S3().getObject(params, function (err, json_data) {
       if (!err) {
         var json = JSON.parse(new Buffer.from(json_data.Body).toString('utf8'));
+        res.json(json);
+      }
+    });
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: '404 : Shipment not found' });
+    }
+    res.status(500).send('500 : Server Error');
+  }
+});
 
+// @route   GET api/shipment/sensordata/:id
+// @desc    Get iot sensor data of the shipment from s3 bucket
+// @access  Private
+router.get('/sensordata/:id', [auth, checkObjectId('id')], async (req, res) => {
+  try {
+    AWS.config.setPromisesDependency();
+    AWS.config.update({
+      accessKeyId: 'AKIAJLGDXXJS2FXSVBZQ',
+      secretAccessKey: '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'
+    });
+    var params = { Bucket: 'shipment-tracker', Key: 'chdata.json' };
+    new AWS.S3().getObject(params, function (err, json_data) {
+      if (!err) {
+        var json = JSON.parse(new Buffer.from(json_data.Body).toString('utf8'));
         res.json(json);
       }
     });

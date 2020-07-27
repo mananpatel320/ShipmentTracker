@@ -146,40 +146,27 @@ function getStepContent(step) {
 
 const CreateShip = ({ setAlert, shipment }) => {
   const [activeStep, setActiveStep] = React.useState(0);
-  //const [activeState, setActiveState] = React.useState('');
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log('shipment sucess');
 
     const name = localStorage.getItem('prodName');
-    /*const legs = [
-      {
-        address: 'Delhi',
-        arrivalDate: '2020-06-17',
-        departureDate: '2020-06-18',
-      },
-      {
-        address: 'Hongkong',
-        arrivalDate: '2020-06-23',
-        departureDate: '2020-06-24',
-      },
-    ];*/
     const min = 100000;
     const max = 1000000;
     const rand = min + Math.random() * (max - min);
     number = Math.floor(rand);
     const quantity = localStorage.getItem('quantity');
     var string = localStorage.getItem('fragile');
-    const fragile = string == 2 ? false : true;
+    const fragile = string === 2 ? false : true;
     var num = localStorage.getItem('insurance_provider');
     var string1;
-    if (num == 1) string1 = 'Company A';
-    else if (num == 2) string1 = 'Company B';
+    if (num === 1) string1 = 'Company A';
+    else if (num === 2) string1 = 'Company B';
     else string1 = 'Company C';
     const insuranceProvider = string1;
     var string2;
-    if (num == 1) string2 = 'Company A';
-    else if (num == 2) string2 = 'Company B';
+    if (num === 1) string2 = 'Company A';
+    else if (num === 2) string2 = 'Company B';
     else string2 = 'Company C';
     const logisticProvider = string2;
     const departureDate = localStorage.getItem('pickup');
@@ -240,8 +227,7 @@ const CreateShip = ({ setAlert, shipment }) => {
   };
   var choice = 0;
 
-  const handleNext = (event) => /*async (dispatch) =>*/ {
-    //event.preventDefault();
+  const handleNext = (event) => {
     if (activeStep === 0) {
       const str = localStorage.getItem('shipper_firstName');
       const str1 = localStorage.getItem('shipper_add1');

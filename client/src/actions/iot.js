@@ -1,6 +1,5 @@
 import api from '../utils/api';
-import { SHIPMENT_IOT } from './types';
-import { setAlert } from './alert';
+import { SHIPMENT_IOT, SHIPMENT_SENSOR, IOT_ERROR } from './types';
 
 //Get shipment iot data
 export const getShipmentIOT = (id) => async (dispatch) => {
@@ -13,7 +12,27 @@ export const getShipmentIOT = (id) => async (dispatch) => {
     });
   } catch (err) {
     dispatch({
-      type: SHIPMENT_ERROR,
+      type: IOT_ERROR,
+      payload: {
+        msg: err.response ? err.response.statusText : 'error',
+        status: err.response ? err.response.status : '500'
+      }
+    });
+  }
+};
+
+//Get shipment sensor data
+export const getShipmentSensor = (id) => async (dispatch) => {
+  try {
+    const res = await api.get(`/shipment/sensordata/${id}`);
+    console.log(res.data);
+    dispatch({
+      type: SHIPMENT_SENSOR,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: IOT_ERROR,
       payload: {
         msg: err.response ? err.response.statusText : 'error',
         status: err.response ? err.response.status : '500'

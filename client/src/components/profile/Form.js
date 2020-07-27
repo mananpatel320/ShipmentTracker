@@ -4,15 +4,15 @@ import TextField from '@material-ui/core/TextField';
 
 const Form = ({ auth: { firstName, lastName, username, category, email } }) => {
   var str;
- if (category == 0) {
+  if (category === 0) {
     str = 'None';
-  } else if (category == 1) {
+  } else if (category === 1) {
     str = 'Consignment Shipper';
-  } else if (category == 2) {
+  } else if (category === 2) {
     str = 'Logistic Provider';
-  } else if (category == 3) {
+  } else if (category === 3) {
     str = 'Insurance Provider';
-  } else if (category == 4) {
+  } else if (category === 4) {
     str = 'Vehicle Operator';
   } else {
   }

@@ -5,7 +5,7 @@ import data from './mapdata.json';
 import Markers from './VenueMarkers';
 const qmdata = [];
 {
-  data.map((pointDetail, index, arr) => {
+  data.map((index, arr) => {
     return qmdata.push({
       lat: arr[index].geometry[0],
       long: arr[index].geometry[1]
@@ -33,18 +33,7 @@ class MapView extends Component {
   }
 
   render() {
-    const { currentLocation, zoom } = this.state;
-    const position = [this.state.lat, this.state.lng];
-
-    const from_lat = this.state.data.map((start) => start.from_lat);
-    const to_lat = this.state.data.map((to) => to.to_lat);
-
-    const from_long = this.state.data.map((start) => start.from_long);
-    const to_long = this.state.data.map((to) => to.to_long);
-    // var sarr = [qmdata.length][2];
-    // for (var i = 0; i < qmdata.length; i++) {
-    //   console.log((sarr[i] = [qmdata[i].lat, qmdata[i].long]));
-    // }
+    const { zoom } = this.state;
     const getLatLngBounds = () => {
       return [
         [qmdata[0].lat, qmdata[0].long],
