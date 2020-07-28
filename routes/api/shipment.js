@@ -3,17 +3,23 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const auth = require('../../middleware/auth');
 const checkObjectId = require('../../middleware/checkObjectId');
+const AWS = require('aws-sdk');
+const fs = require('fs');
+const readline = require('readline');
 
 //Shipment model
 const Shipment = require('../../models/Shipment');
 const User = require('../../models/User');
 
 // @route    GET api/shipment/
-// @desc     Get all shipments
+// @desc     Get all shipments created by logged in user
 // @access   Private
 router.get('/', auth, async (req, res) => {
   try {
-    const shipments = await Shipment.find().sort({ date: -1 });
+    const user = await User.findById(req.user.id).select('-password');
+    const shipments = await Shipment.find({ user: user._id }).sort({
+      date: -1
+    });
     res.json(shipments);
   } catch (err) {
     console.error(err.message);
@@ -83,6 +89,58 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
   } catch (err) {
     console.error(err.message);
 
+    res.status(500).send('500 : Server Error');
+  }
+});
+
+// @route   GET api/shipment/iotdata/:id
+// @desc    Get iot data of the shipment from s3 bucket
+// @access  Private
+router.get('/iotdata/:id', [auth, checkObjectId('id')], async (req, res) => {
+  try {
+    AWS.config.setPromisesDependency();
+    AWS.config.update({
+      accessKeyId: '<paste_your_AWSAccessKeyId>',
+      secretAccessKey: '<paste_yout_AWSSecretKey>'
+    });
+    var params = { Bucket: 'shipment-tracker', Key: 'mapdata.json' };
+    new AWS.S3().getObject(params, function (err, json_data) {
+      if (!err) {
+        var json = JSON.parse(new Buffer.from(json_data.Body).toString('utf8'));
+        res.json(json);
+      }
+    });
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: '404 : Shipment not found' });
+    }
+    res.status(500).send('500 : Server Error');
+  }
+});
+
+// @route   GET api/shipment/sensordata/:id
+// @desc    Get iot sensor data of the shipment from s3 bucket
+// @access  Private
+router.get('/sensordata/:id', [auth, checkObjectId('id')], async (req, res) => {
+  try {
+    AWS.config.setPromisesDependency();
+    AWS.config.update({
+      accessKeyId: '<paste_your_AWSAccessKeyId>',
+      secretAccessKey: '<paste_yout_AWSSecretKey>'
+    });
+    var params = { Bucket: 'shipment-tracker', Key: 'chdata.json' };
+    new AWS.S3().getObject(params, function (err, json_data) {
+      if (!err) {
+        var json = JSON.parse(new Buffer.from(json_data.Body).toString('utf8'));
+        res.json(json);
+      }
+    });
+  } catch (err) {
+    console.error(err.message);
+    if (err.kind == 'ObjectId') {
+      return res.status(404).json({ msg: '404 : Shipment not found' });
+    }
     res.status(500).send('500 : Server Error');
   }
 });

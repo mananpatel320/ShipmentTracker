@@ -13,7 +13,6 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { Link } from 'react-router-dom';
 import { createMuiTheme } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
 import { ThemeProvider } from '@material-ui/styles';
 import KeyboardBackspaceIcon from '@material-ui/icons/KeyboardBackspace';
 import Button from '@material-ui/core/Button';
@@ -23,10 +22,10 @@ import ConsTable from './ConsignmentTable';
 import Chart from './Chart';
 import Chart1 from './Chart1';
 import Chart2 from './Chart2';
-import Map from './map';
+import Map from './MapView';
 import Spinner from '../layout/Spinner';
 import Moment from 'react-moment';
-import { getShipment, deleteShipment } from '../../actions/shipment';
+import { getShipment } from '../../actions/shipment';
 
 function Copyright() {
   return (
@@ -87,12 +86,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const Tracker = ({
-  getShipment,
-  deleteShipment,
-  shipment: { shipment, loading },
-  match
-}) => {
+const Tracker = ({ getShipment, shipment: { shipment, loading }, match }) => {
   const classes = useStyles();
   useEffect(() => {
     getShipment(match.params.id);
@@ -269,16 +263,6 @@ const Tracker = ({
             </Grid>
           </Grid>
         </Grid>
-        <Button
-          variant="contained"
-          color="secondary"
-          className={classes.button}
-          startIcon={<DeleteIcon />}
-          // onClick={() => deleteShipment(shipment._id)}
-          style={{ align: 'centre' }}
-        >
-          DELETE SHIPMENT
-        </Button>
         <Box pt={4}>
           <Copyright />
         </Box>
@@ -289,7 +273,6 @@ const Tracker = ({
 
 Tracker.propTypes = {
   getShipment: PropTypes.func.isRequired,
-  deleteShipment: PropTypes.func.isRequired,
   shipment: PropTypes.object.isRequired
 };
 
@@ -297,6 +280,4 @@ const mapStateToProps = (state) => ({
   shipment: state.shipment
 });
 
-export default connect(mapStateToProps, { getShipment, deleteShipment })(
-  Tracker
-);
+export default connect(mapStateToProps, { getShipment })(Tracker);

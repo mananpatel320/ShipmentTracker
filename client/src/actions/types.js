@@ -16,3 +16,6 @@ export const SHIPMENT_ERROR = 'SHIPMENT_ERROR';
 export const DELETE_SHIPMENT = 'DELETE_SHIPMENT';
 export const ADD_SHIPMENT = 'ADD_SHIPMENT';
 export const GET_SHIPMENT = 'GET_SHIPMENT';
+export const SHIPMENT_IOT = 'SHIPMENT_IOT';
+export const SHIPMENT_SENSOR = 'SHIPMENT_SENSOR';
+export const IOT_ERROR = 'IOT_ERROR';

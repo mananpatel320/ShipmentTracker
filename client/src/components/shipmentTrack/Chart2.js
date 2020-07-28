@@ -1,140 +1,92 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { getShipmentSensor } from '../../actions/iot';
 import Paper from '@material-ui/core/Paper';
+import PropTypes from 'prop-types';
 import {
   Chart,
   ArgumentAxis,
   ValueAxis,
   LineSeries,
-  ZoomAndPan,
   Title
 } from '@devexpress/dx-react-chart-material-ui';
+
 import { scaleTime } from 'd3-scale';
 import { ArgumentScale } from '@devexpress/dx-react-chart';
-// import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Grid from '@material-ui/core/Grid';
-// import CssBaseline from "@material-ui/core/CssBaseline";
 
-// import dt from "./dt";
+import PostData from './chdata.json';
 
-const generateData = (n) => {
-  const ret = [];
-  let y = 0;
-  let ub = 10;
-  let lb = -10;
-  const dt = new Date();
-  for (let i = 0; i < n; i += 1) {
-    dt.setHours(dt.getHours() + 1);
-    y += Math.round(Math.random() * 10 - 5);
-    ret.push({ x: new Date(dt), y, ub, lb });
-  }
-  return ret;
-};
-const data = generateData(250);
-
-const getMode = (zoom, pan) => {
-  if (zoom && pan) {
-    return 'both';
-  }
-  if (zoom && !pan) {
-    return 'zoom';
-  }
-  if (!zoom && pan) {
-    return 'pan';
-  }
-  return 'none';
-};
+const data = [];
+PostData.map((postDetail, index) => {
+  return data.push({
+    lb: postDetail.lb,
+    ub: postDetail.ub,
+    x: new Date(postDetail.x),
+    y: postDetail.y
+  });
+});
 
 const chartRootStyle = { marginRight: '20px' };
-// const inputsContainerStyle = { justifyContent: "center" };
 
 const ChartRoot = (props) => <Chart.Root {...props} style={chartRootStyle} />;
 
-export default class Demo extends React.PureComponent {
-  constructor(props) {
-    super(props);
+const TempChart = ({ getShipmentSensor, iot: { iotdata, loading } }) => {
+  useEffect(() => {
+    getShipmentSensor();
+  }, [getShipmentSensor]);
+  return (
+    <Grid container direction="column">
+      <Grid item xs={12}>
+        <Paper elevation={15}>
+          <Chart
+            data={PostData.map((postDetail) => ({
+              lb: postDetail.lb,
+              ub: postDetail.ub,
+              x: new Date(postDetail.x),
+              y: postDetail.y
+            }))}
+            rootComponent={ChartRoot}
+          >
+            <ArgumentScale factory={scaleTime} />
+            <ArgumentAxis />
+            <ValueAxis />
+            <LineSeries
+              valueField="y"
+              argumentField="x"
+              name="x:Time, y:Pressure(Pa)"
+              color="#0595fc"
+              Legend
+            />
 
-    this.state = {
-      data,
-      zoomArgument: true,
-      panArgument: true,
-      zoomValue: false,
-      panValue: false
-    };
-    this.submit = (e) =>
-      this.setState({
-        [e.target.id]: e.target.checked
-      });
-  }
+            <LineSeries
+              valueField="ub"
+              argumentField="x"
+              name="Upper Bound"
+              color="#fc5805"
+            />
+            <LineSeries
+              valueField="lb"
+              argumentField="x"
+              name="Lower Bound"
+              color="#05fc6c"
+            />
 
-  renderInput(id, label) {
-    const { [id]: checked } = this.state;
-    return (
-      <FormControlLabel
-        control={
-          <Checkbox
-            id={id}
-            checked={checked}
-            onChange={this.submit}
-            value="checkedB"
-            color="primary"
-          />
-        }
-        label={label}
-      />
-    );
-  }
-
-  render() {
-    const {
-      data: chartData,
-      zoomValue,
-      panValue,
-      zoomArgument,
-      panArgument
-    } = this.state;
-    return (
-      <Grid container direction="column">
-        <Grid item xs={12}>
-          <Paper elevation={15}>
-            <Chart data={chartData} rootComponent={ChartRoot}>
-              <ArgumentScale factory={scaleTime} />
-              <ArgumentAxis />
-              <ValueAxis name="IoT" />
-
-              <LineSeries
-                valueField="y"
-                argumentField="x"
-                name="x:Time, y:Vibration(Hz)"
-              />
-              <LineSeries
-                valueField="ub"
-                argumentField="x"
-                name="Upper Bound"
-              />
-              <LineSeries
-                valueField="lb"
-                argumentField="x"
-                name="Lower Bound"
-              />
-
-              <ZoomAndPan
-                interactionWithArguments={getMode(zoomArgument, panArgument)}
-                interactionWithValues={getMode(zoomValue, panValue)}
-              />
-              {/* <Legend position="right" /> */}
-              <Title text="Vibration" />
-            </Chart>
-            {/* <FormGroup style={inputsContainerStyle} row>
-          {this.renderInput("zoomArgument", "Zoom argument")}
-          {this.renderInput("panArgument", "Pan argument")}
-          {this.renderInput("zoomValue", "Zoom value")}
-          {this.renderInput("panValue", "Pan value")}
-        </FormGroup> */}
-          </Paper>
-        </Grid>
+            <Title text="Pressure" />
+          </Chart>
+        </Paper>
       </Grid>
-    );
-  }
-}
+    </Grid>
+  );
+};
+
+Chart.propTypes = {
+  getShipmentSensor: PropTypes.func.isRequired,
+  iot: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  iot: state.iot
+});
+
+export default connect(mapStateToProps, { getShipmentSensor })(TempChart);

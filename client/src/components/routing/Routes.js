@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 import Register from '../auth/Register';
 import { Link } from 'react-router-dom';
 import Login from '../auth/Login';
-import Dashboard from '../dashboard/Dashboard';
-import CreateShip from '../dashboard/CreateShip';
+import dashboard from '../dashboard/Dashboard';
+import createShip from '../dashboard/createShip';
 import PrivateRoute from './PrivateRoute';
 import Tracker from '../shipmentTrack/Tracker';
 import Profile from '../profile/Profile';
@@ -39,7 +39,14 @@ import Alert from '../layout/Alert';
 import Badge from '@material-ui/core/Badge';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import Landing from '../layout/Landing';
+
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Popper from '@material-ui/core/Popper';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 
 const drawerWidth = 240;
 
@@ -114,11 +121,59 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       display: 'none'
     }
+  },
+  rootnotify: {
+    // display: "flex",
+    width: '100%',
+    maxWidth: '36ch',
+    backgroundColor: theme.palette.background.paper
+  },
+  inline: {
+    display: 'inline'
+  },
+  button: {
+    margin: theme.spacing(1)
   }
 }));
 
-const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
+const Routes = (
+  { auth: { user, isAuthenticated, loading }, logout },
+  props
+) => {
   const classes = useStyles();
+
+  const [openNotify, setOpenNotify] = React.useState(false);
+  const anchorRef = React.useRef(null);
+
+  const handleToggle = () => {
+    setOpenNotify((prevOpenNotify) => !prevOpenNotify);
+  };
+
+  const handleClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setOpenNotify(false);
+  };
+
+  function handleListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpenNotify(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !openNotify -> openNotify
+  const prevOpenNotify = React.useRef(openNotify);
+  React.useEffect(() => {
+    if (prevOpenNotify.current === true && openNotify === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpenNotify.current = openNotify;
+  }, [openNotify]);
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const authLinks = (
@@ -130,7 +185,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
           </ListItemIcon>
           <ListItemText primary="Dashboard" />
         </ListItem>
-        <ListItem button component={Link} to="/createship">
+        <ListItem button component={Link} to="/createShip">
           <ListItemIcon>
             <AddCircleIcon />
           </ListItemIcon>
@@ -145,14 +200,6 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
       </List>
       <Divider />
       <List>
-        <ListItem button>
-          <ListItemIcon>
-            <Badge badgeContent={17} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </ListItemIcon>
-          <ListItemText primary="Notifications" />
-        </ListItem>
         <ListItem button component={Link} to="/profile">
           <ListItemIcon>
             <AccountCircleIcon />
@@ -219,14 +266,139 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             <Fragment>
               <div className={classes.grow} />
               <div className={classes.sectionDesktop}>
-                <IconButton
-                  aria-label="show 17 new notifications"
-                  color="inherit"
-                >
-                  <Badge badgeContent={17} color="secondary">
-                    <NotificationsIcon />
-                  </Badge>
-                </IconButton>
+                <div>
+                  <IconButton
+                    aria-label="show 17 new notifications"
+                    color="inherit"
+                    ref={anchorRef}
+                    aria-controls={openNotify ? 'menu-list-grow' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                  >
+                    <Badge badgeContent={3} color="secondary">
+                      <NotificationsIcon />{' '}
+                    </Badge>
+                  </IconButton>
+                  <Popper
+                    open={openNotify}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{
+                          transformOrigin:
+                            placement === 'bottom'
+                              ? 'center top'
+                              : 'center bottom'
+                        }}
+                      >
+                        <ClickAwayListener onClickAway={handleClose}>
+                          <List
+                            className={classes.rootnotify}
+                            autoFocusItem={openNotify}
+                            id="menu-list-grow"
+                            onKeyDown={handleListKeyDown}
+                          >
+                            <ListItem
+                              alignItems="flex-start"
+                              onClick={handleClose}
+                            >
+                              <ListItemAvatar>
+                                <Avatar
+                                  alt="Remy Sharp"
+                                  src="/static/images/avatar/1.jpg"
+                                />
+                              </ListItemAvatar>
+                              <ListItemText
+                                primary="Receive Consignment"
+                                secondary={
+                                  <React.Fragment>
+                                    <Typography
+                                      component="span"
+                                      variant="body2"
+                                      className={classes.inline}
+                                      color="textPrimary"
+                                    >
+                                      Shipper A-
+                                    </Typography>
+                                    {
+                                      'You have received a request to receive Consignment'
+                                    }
+                                  </React.Fragment>
+                                }
+                              />
+                            </ListItem>
+                            <Divider variant="inset" component="li" />
+                            <ListItem
+                              alignItems="flex-start"
+                              onClick={handleClose}
+                            >
+                              <ListItemAvatar>
+                                <Avatar
+                                  alt="Travis Howard"
+                                  src="/static/images/avatar/2.jpg"
+                                />
+                              </ListItemAvatar>
+                              <ListItemText
+                                primary="Handover Request"
+                                secondary={
+                                  <React.Fragment>
+                                    <Typography
+                                      component="span"
+                                      variant="body2"
+                                      className={classes.inline}
+                                      color="textPrimary"
+                                    >
+                                      Vehicle Operator C-
+                                    </Typography>
+                                    {
+                                      'You have received a request to receive Consignment'
+                                    }
+                                  </React.Fragment>
+                                }
+                              />
+                            </ListItem>
+                            <Divider variant="inset" component="li" />
+                            <ListItem
+                              alignItems="flex-start"
+                              onClick={handleClose}
+                            >
+                              <ListItemAvatar>
+                                <Avatar
+                                  alt="Cindy Baker"
+                                  src="/static/images/avatar/3.jpg"
+                                />
+                              </ListItemAvatar>
+                              <ListItemText
+                                primary="Handover Request"
+                                secondary={
+                                  <React.Fragment>
+                                    <Typography
+                                      component="span"
+                                      variant="body2"
+                                      className={classes.inline}
+                                      color="textPrimary"
+                                    >
+                                      Logistic Provider B-
+                                    </Typography>
+                                    {
+                                      'You have received a request to receive Consignment'
+                                    }
+                                  </React.Fragment>
+                                }
+                              />
+                            </ListItem>
+                          </List>
+                        </ClickAwayListener>
+                      </Grow>
+                    )}
+                  </Popper>
+                </div>
+                {/* </div> */}
                 <IconButton
                   aria-label="account of current user"
                   color="inherit"
@@ -234,6 +406,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
                   to="/profile"
                 >
                   <AccountCircle />
+                  {user && user.firstName}
                 </IconButton>
                 <IconButton
                   edge="end"
@@ -241,12 +414,8 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
                   color="inherit"
                   onClick={logout}
                 >
+                  {' '}
                   <ExitToAppIcon />
-                </IconButton>
-              </div>
-              <div className={classes.sectionMobile}>
-                <IconButton aria-label="show more" color="inherit">
-                  <MoreIcon />
                 </IconButton>
               </div>
             </Fragment>
@@ -263,6 +432,16 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
         }}
       >
         <div className={classes.drawerHeader}>
+          {!loading && isAuthenticated ? (
+            <Typography
+              gutterBottom="true"
+              align="center"
+              variant="h6"
+              color="primary"
+            >
+              {'Welcome' + '  ' + (user && user.username) + ' ! '}
+            </Typography>
+          ) : null}
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
@@ -271,6 +450,7 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
             )}
           </IconButton>
         </div>
+
         <Divider />
         {!loading && isAuthenticated ? authLinks : guestLinks}
       </Drawer>
@@ -283,10 +463,11 @@ const Routes = ({ auth: { isAuthenticated, loading }, logout }, props) => {
         <section className="container">
           <Alert />
           <Switch>
+            <Route exact path="/" component={Landing} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/login" component={Login} />
-            <PrivateRoute exact path="/dashboard" component={Dashboard} />
-            <PrivateRoute exact path="/createship" component={CreateShip} />
+            <PrivateRoute exact path="/dashboard" component={dashboard} />
+            <PrivateRoute exact path="/createShip" component={createShip} />
             <PrivateRoute exact path="/track/:id" component={Tracker} />
             <PrivateRoute exact path="/profile" component={Profile} />
             <PrivateRoute exact path="/handover" component={Handover} />
