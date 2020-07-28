@@ -10,7 +10,9 @@ const useStateWithLocalStorage = (localStorageKey) => {
   );
   React.useEffect(() => {
     localStorage.setItem(localStorageKey, value);
-  }, [value]);
+  }, 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [value]);
 
   return [value, setValue];
 };
