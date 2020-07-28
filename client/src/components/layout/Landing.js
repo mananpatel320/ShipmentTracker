@@ -38,7 +38,7 @@ export default function MediaCard() {
       alignItems="center"
     >
       <Grid item xs={12}>
-        <img className={classes.media} style={{ width: '100%' }} src={Land} />
+        <img className={classes.media} style={{ width: '100%' }} src={Land} alt="Shipment truck"/>
       </Grid>
       <Grid item xs={12}>
         <Typography variant="body2" color="textSecondary" component="p">
