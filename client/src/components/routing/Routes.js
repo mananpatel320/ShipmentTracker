@@ -439,7 +439,7 @@ const Routes = (
               variant="h6"
               color="primary"
             >
-              {'Welcome' + '  ' + (user && user.username) + ' ! '}
+              {'Welcome  ' + (user && user.username) + ' ! '}
             </Typography>
           ) : null}
           <IconButton onClick={handleDrawerClose}>
